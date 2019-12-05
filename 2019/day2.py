@@ -65,29 +65,18 @@ def arrange_operations_old(data):
 
 
 def run(operation, data):
-    # print("Running operation: ", operation)
-    # if (len(operation) == 4):
-    #     if operation[3] == 0:
-    #         print("FOUND IT!")
-    #         sys.exit(1)
     if operation[0] == 1:
         num1 = data[operation[1]]
         num2 = data[operation[2]]
         result = int(num1) + int(num2)
-        # print("Adding {} and {} that were in slots {} and {}".format(num1, num2, operation[1], operation[2]))
-        # print("Putting {} into slot {}".format(result, operation[3]))
         data[operation[3]] = result
     elif operation[0] == 2:
         num1 = data[operation[1]]
         num2 = data[operation[2]]
 
         result = int(num1) * int(num2)
-        # print("Multiplying {} and {} that were in slots {} and {}".format(num1, num2, operation[1], operation[2]))
-        # print("Putting {} into slot {}".format(result, operation[3]))
         data[operation[3]] = result
     elif operation[0] == 99:
-        # print("Found STOP OP CODE")
-        # print(data)
         pass
     else:
         print("UNKNOWN OP")
@@ -105,22 +94,34 @@ def load_data(noun, verb):
 
 
 def test(noun, verb, result):
+    test_num = calculate_result(noun, verb)
+    if test_num == result:
+        return True
+    return False
+
+def calculate_result(noun, verb):
     line_parts = load_data(noun, verb)
     ops = arrange_operations(line_parts)
     for op in ops:
         run(op, line_parts)
+    return line_parts[0]
 
-    if line_parts[0] == result:
-        return True
-    return False
+def part1():
+    result = calculate_result(12, 2)
+    return result
 
-def main():
+def part2():
     answer = 19690720
     for y in range(0, 100):
         for x in range(0, 100):
             result = test(x, y, answer)
             if result:
-                print("Found Answer: ", x, y)
+                return x * 100 + y
+
+
+def main():
+    print("Answer for part 1: {}".format(part1()))
+    print("Answer for part 2: {}".format(part2()))
 
 if __name__ == "__main__":
     main()
