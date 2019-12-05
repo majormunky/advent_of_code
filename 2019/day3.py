@@ -358,10 +358,10 @@ def generate_collisions(path1, path2):
     return collisions
 
 
-def main():
+def part1():
     path_manager = PathManager("day3_data.txt")
     min_distance = path_manager.get_min_distance()
-    print("Part 1: ", min_distance)
+    return min_distance
 
     """
     For part 2 we need to:
@@ -374,12 +374,21 @@ def main():
     2: check the other path for that collision and get the distance to it
     3: find the combination that leads to the shortest path
     """
-    path_managere.get_distance_to_next_collision(1, 0)
+    # path_managere.get_distance_to_next_collision(1, 0)
     # path_list[0].print()
     # set_screensize(1000, 1000)
     # set_data("path_list", path_list)
     # e = Engine(PathTest)
     # e.game_loop()
+
+
+def part2():
+    return "No idea?!"
+
+
+def main():
+    print("Answer for part 1: {}".format(part1()))
+    print("Answer for part 2: {}".format(part2()))
 
 
 if __name__ == '__main__':
