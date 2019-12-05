@@ -23,9 +23,9 @@ class Point(object):
 
 
 class Line(object):
-    def __init__(self, start, end, cmd):
-        self.start = Point(start[0], start[1])
-        self.end = Point(end[0], end[1])
+    def __init__(self, start_x, start_y, end_x, end_y, cmd):
+        self.start = Point(start_x, start_y)
+        self.end = Point(end_x, end_y)
         self.cmd = cmd
         self.direction = None
         if self.start.x == self.end.x:
@@ -50,15 +50,41 @@ class Line(object):
             self.end.y
         )
 
-    def __repr__(self):
-        return self.__str__()
+    def get_length(self, point=None):
+        """
+        Returns the length of the line
+        If point is passed in, we return the length of the line
+        between the start of the line and the point
+        """
+        if self.direction == "Vertical":
+            if point:
+                return point[1] - self.start.y
+            else:
+                return self.end.y - self.start.y
+        elif self.direction == "Horizontal":
+            if point:
+                return point[0] - self.start.x
+            else:
+                return self.end.x - self.start.x
     
     def collide_with(self, other):
         if self.direction == other.direction:
             return False
-        if self.start.x <= other.end.x and self.end.x >= other.start.x and self.start.y <= other.end.y and self.end.y >= other.start.y:
-            return [self.start.x, other.end.y]
+
+        # if the start of our line is to the left of the other line
+        if self.start.x <= other.end.x:
+            # and the end of our line is to the right of the other line
+            if self.end.x >= other.start.x:
+                # and the start of our line is above our other line
+                if self.start.y <= other.end.y:
+                    # and the end of our line is below the other line
+                    if self.end.y >= other.start.y:
+                        if self.direction == "Vertical":
+                            return (self.start.x, other.start.y)
+                        else:
+                            return (other.start.x, self.start.y)
         return False
+
 
 class Path(object):
     def __init__(self):
