@@ -106,7 +106,6 @@ class Path(object):
             self.max_y = line.end.y
     
     def print(self):
-        print("Printing Line List")
         for line in self.lines:
             print(line)
 
@@ -115,11 +114,10 @@ def create_line(item, start_pos):
     parts = list(item)
     direction = parts.pop(0)
     amount = int("".join(parts))
-
     if direction == "U":
         end_pos = [
             start_pos[0],
-            start_pos[1] - amount
+            start_pos[1] - (amount)
         ]
     elif direction == "D":
         end_pos = [
@@ -144,5 +142,5 @@ def create_line(item, start_pos):
         end_pos[1],
         item
     )
-    return line
+    return (line, end_pos)
 
