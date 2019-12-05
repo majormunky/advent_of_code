@@ -8,7 +8,7 @@ from common import Point, Line, Path, PathManager
 # from Engine.DataManager import set_data, get_data
 
 
-class PathTest:
+class PathPygameTest:
     def __init__(self):
         self.path_list = get_data("path_list")
         self.path_manager = PathManager(self.path_list[0], self.path_list[1])
@@ -85,18 +85,6 @@ class PathTest:
 
     def handle_event(self, event):
         pass
-
-
-def generate_collisions(path1, path2):
-    collisions = []
-    for line in path1.lines:
-        for line2 in path2.lines:
-            result = line.collide_with(line2)
-            if result and result not in collisions:
-                collisions.append(result)
-    if [0, 0] in collisions:
-        collisions.remove([0, 0])
-    return collisions
 
 
 def part1():
