@@ -1,75 +1,11 @@
 import os
 import sys
 import common
-from common import Point
+from common import Point, Line
 # import pygame
 # from Engine.Engine import Engine
 # from Engine.Config import set_screensize, get_screenrect
 # from Engine.DataManager import set_data, get_data
-
-
-class Line(object):
-    def __init__(self, start_x, start_y, end_x, end_y, cmd):
-        self.start = Point(start_x, start_y)
-        self.end = Point(end_x, end_y)
-        self.cmd = cmd
-        self.direction = None
-        if self.start.x == self.end.x:
-            self.direction = "Vertical"
-            if self.start.y > self.end.y:
-                self.start, self.end = self.end, self.start
-        elif self.start.y == self.end.y:
-            self.direction = "Horizontal"
-            if self.start.x > self.end.x:
-                self.start, self.end = self.end, self.start
-        else:  
-            print("Detected diagonal line")
-            self.direction = "BROKE"
-    
-    def __str__(self):
-        return "{} Line ({}) - Start: {}, {} | End: {}, {}".format(
-            self.direction,
-            self.cmd,
-            self.start.x,
-            self.start.y,
-            self.end.x,
-            self.end.y
-        )
-
-    def get_length(self, point=None):
-        """
-        Returns the length of the line
-        If point is passed in, we return the length of the line
-        between the start of the line and the point
-        """
-        if self.direction == "Vertical":
-            if point:
-                return point[1] - self.start.y
-            else:
-                return self.end.y - self.start.y
-        elif self.direction == "Horizontal":
-            if point:
-                return point[0] - self.start.x
-            else:
-                return self.end.x - self.start.x
-    
-    def collide_with(self, other):
-        if self.direction == other.direction:
-            return False
-
-        # if the start of our line is to the left of the other line
-        if self.start.x <= other.end.x:
-            # and the end of our line is to the right of the other line
-            if self.end.x >= other.start.x:
-                # and the start of our line is above our other line
-                if self.start.y <= other.end.y:
-                    # and the end of our line is below the other line
-                    if self.end.y >= other.start.y:
-                        if self.direction == "Vertical":
-                            return (self.start.x, other.start.y)
-                        else:
-                            return (other.start.x, self.start.y)
-        return False
             
 
 class PathManager(object):
