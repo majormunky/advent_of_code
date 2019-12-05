@@ -1,18 +1,11 @@
 import os
 import sys
+import common
 from common import Point
 # import pygame
 # from Engine.Engine import Engine
 # from Engine.Config import set_screensize, get_screenrect
 # from Engine.DataManager import set_data, get_data
-
-
-def get_file_contents(filepath):
-    result = []
-    with open(filepath, "r") as f:
-        for line in f.readlines():
-            result.append(line.strip())
-    return result
 
 
 class Line(object):
@@ -86,7 +79,7 @@ class PathManager(object):
         self.collisions = []
 
         fp = os.path.join("data", filename)
-        stuff = get_file_contents(fp)
+        stuff = common.get_file_lines(fp)
         wires = {
             0: [[0, 0],],
             1: [[0, 0],]
