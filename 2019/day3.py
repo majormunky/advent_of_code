@@ -1,7 +1,7 @@
 import os
 import sys
 import common
-from common import Point, Line, Path, PathManager
+from common import Point, Line, Path
 # import pygame
 # from Engine.Engine import Engine
 # from Engine.Config import set_screensize, get_screenrect
@@ -87,6 +87,128 @@ class PathPygameTest:
         pass
 
 
+class PathManager(object):
+    def __init__(self, filename):
+        self.path1 = None
+        self.path2 = None
+        self.collisions = []
+
+        fp = os.path.join("data", filename)
+        stuff = common.get_file_lines(fp)
+        wires = {
+            0: [[0, 0],],
+            1: [[0, 0],]
+        }
+        paths = []
+
+        for index, line in enumerate(stuff):
+            path = Path()
+            for item in line.split(","):
+                spos = wires[index][-1]
+                a_line, end_pos = self.create_line(item, spos)
+                path.add_line(a_line)
+                wires[index].append(end_pos)
+            paths.append(path)
+        
+        self.path1 = paths[0]
+        self.path2 = paths[1]
+        self.generate_collisions()
+
+    def create_line(self, command, start_pos):
+        parts = list(command)
+        direction = parts.pop(0)
+        amount = int("".join(parts))
+        if direction == "U":
+            end_pos = [
+                start_pos[0],
+                start_pos[1] - (amount)
+            ]
+        elif direction == "D":
+            end_pos = [
+                start_pos[0],
+                start_pos[1] + amount
+            ]            
+        elif direction == "L":
+            end_pos = [
+                start_pos[0] - amount,
+                start_pos[1]
+            ]
+        elif direction == "R":
+            end_pos = [
+                start_pos[0] + amount,
+                start_pos[1]
+            ]
+            
+        line = Line(
+            start_pos[0], 
+            start_pos[1], 
+            end_pos[0], 
+            end_pos[1],
+            command
+        )
+        return (line, end_pos)
+
+    def generate_collisions(self):
+        self.collisions = []
+        for line in self.path1.lines:
+            for line2 in self.path2.lines:
+                result = line.collide_with(line2)
+                if result and result not in self.collisions:
+                    self.collisions.append(result)
+        if [0, 0] in self.collisions:
+            self.collisions.remove([0, 0])
+
+    def get_collisions(self):
+        return self.collisions
+
+    def manhattan(self, p1, p2):
+        return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+
+    def get_min_distance(self):
+        distances = {}
+        for c in self.collisions:
+            distances[c] = self.manhattan(c, [0, 0])
+        
+        min_distance = sys.maxsize
+        
+        for k, v in distances.items():
+            if v < min_distance:
+                min_distance = v
+        return min_distance
+
+    def get_distance_to_next_collision(self, path_num, collision_index):
+        distance = 0
+        start = [0, 0]
+        cur_path = None
+        if path_num == 1:
+            cur_path = self.path1
+        else:
+            cur_path = self.path2
+
+        for line in cur_path.lines:
+            has_collision = False
+            # check to see if this line has any collisions
+            for c in self.collisions:
+                if line.direction == "Vertical":
+                    # just check for x
+                    if c[0] == line.start.x:
+                        print("Found collision")
+                        has_collision = True
+                else:
+                    # check for y
+                    if c[1] == line.start.y:
+                        print("Found collision")
+                        has_collision = True
+                if has_collision:
+                    # calculate the distance from the start of the line
+                    # to the collision
+                    distance += line.get_distance(c)
+                else:
+                    # just add the entire length of the line to the distance
+                    distance += line.get_distance()
+
+
+
 def part1():
     path_manager = PathManager("day3_data.txt")
     min_distance = path_manager.get_min_distance()
@@ -105,6 +227,9 @@ def part2():
     2: check the other path for that collision and get the distance to it
     3: find the combination that leads to the shortest path
     """
+    pm = PathManager("day3_test_data.txt")
+    
+
     return "No idea?!"
 
 
