@@ -1,7 +1,7 @@
 import os
 import sys
 import common
-from common import Point, Line
+from common import Point, Line, Path
 # import pygame
 # from Engine.Engine import Engine
 # from Engine.Config import set_screensize, get_screenrect
@@ -127,66 +127,6 @@ class PathManager(object):
                 else:
                     # just add the entire length of the line to the distance
                     distance += line.get_distance()
-
-
-
-class Path(object):
-    def __init__(self):
-        self.lines = []
-        self.min_x = sys.maxsize
-        self.max_x = 0
-        self.min_y = sys.maxsize
-        self.max_y = 0
-    
-    def add_line(self, line):
-        self.lines.append(line)
-        if line.start.x < self.min_x:
-            self.min_x = line.start.x
-        if line.start.y < self.min_y:
-            self.min_y = line.start.y
-        if line.end.x > self.max_x:
-            self.max_x = line.end.x
-        if line.end.y > self.max_y:
-            self.max_y = line.end.y
-    
-    def print(self):
-        for line in self.lines:
-            print(line)
-
-
-def create_line(item, start_pos):
-    parts = list(item)
-    direction = parts.pop(0)
-    amount = int("".join(parts))
-    if direction == "U":
-        end_pos = [
-            start_pos[0],
-            start_pos[1] - (amount)
-        ]
-    elif direction == "D":
-        end_pos = [
-            start_pos[0],
-            start_pos[1] + amount
-        ]            
-    elif direction == "L":
-        end_pos = [
-            start_pos[0] - amount,
-            start_pos[1]
-        ]
-    elif direction == "R":
-        end_pos = [
-            start_pos[0] + amount,
-            start_pos[1]
-        ]
-        
-    line = Line(
-        start_pos[0], 
-        start_pos[1], 
-        end_pos[0], 
-        end_pos[1],
-        item
-    )
-    return (line, end_pos)
 
 
 class PathTest:
