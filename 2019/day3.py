@@ -1,5 +1,6 @@
 import os
 import sys
+from common import Point
 # import pygame
 # from Engine.Engine import Engine
 # from Engine.Config import set_screensize, get_screenrect
@@ -12,14 +13,6 @@ def get_file_contents(filepath):
         for line in f.readlines():
             result.append(line.strip())
     return result
-
-class Point(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    
-    def __str__(self):
-        return "<{}, {}>".format(self.x, self.y)
 
 
 class Line(object):
@@ -363,6 +356,8 @@ def part1():
     min_distance = path_manager.get_min_distance()
     return min_distance
 
+
+def part2():
     """
     For part 2 we need to:
     1: Walk through each line for each path
@@ -374,15 +369,6 @@ def part1():
     2: check the other path for that collision and get the distance to it
     3: find the combination that leads to the shortest path
     """
-    # path_managere.get_distance_to_next_collision(1, 0)
-    # path_list[0].print()
-    # set_screensize(1000, 1000)
-    # set_data("path_list", path_list)
-    # e = Engine(PathTest)
-    # e.game_loop()
-
-
-def part2():
     return "No idea?!"
 
 
