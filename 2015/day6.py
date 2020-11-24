@@ -5,16 +5,45 @@ data = common.get_file_contents("data/day6_input.txt")
 
 
 def main():
-	part1()
+	part2()
 
 
 def part2():
-	pass
+	# setup a 2d grid of false values to represent lights
+	grid = [[0 for x in range(1000)] for y in range(1000)]
+
+	for instruction in data:
+		# parse the line into a dictionary
+		step_data = parse_instruction(instruction)
+
+		grid = update_brightness(step_data, grid)
+
+	answer = count_brightness(grid)
+	print(answer)
 
 
-def test_change_list(l):
-	l[2] = 10
-	return l
+def update_brightness(step, g):
+	for y in range(step["start_pos"][1], step["end_pos"][1] + 1):
+		for x in range(step["start_pos"][0], step["end_pos"][0] + 1):
+			action = step["action"]
+			if action == "turn on":
+				g[y][x] += 1
+			elif action == "turn off":
+				g[y][x] -= 1
+				if g[y][x] < 0:
+					g[y][x] = 0
+			elif action == "toggle":
+				g[y][x] += 2
+	return g
+
+
+def count_brightness(g):
+	# Given a 2d grid, count the brightness values for each slot
+	result = 0
+	for row in g:
+		for item in row:
+			result += item
+	return result
 
 
 def parse_instruction(i):
