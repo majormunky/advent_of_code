@@ -41,9 +41,6 @@ def check_password(line):
     # vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
     parts = line.split("-")
 
-    # This will get us ["644", "kotgr]"]
-    checksum_parts = parts.pop().split("[")
-
     # to get our checksum, we need to get rid of the last bracket
     sector_id, checksum = get_checksum(line)
 
