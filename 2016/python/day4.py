@@ -21,7 +21,7 @@ def get_most_common(data):
     return "".join(answer[:5])
 
 
-def check_password(line):
+def get_checksum(line):
     # vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
     parts = line.split("-")
 
@@ -33,6 +33,19 @@ def check_password(line):
 
     # the sector id we can just convert to an int
     sector_id = int(checksum_parts[0])
+
+    return (sector_id, checksum)
+
+
+def check_password(line):
+    # vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
+    parts = line.split("-")
+
+    # This will get us ["644", "kotgr]"]
+    checksum_parts = parts.pop().split("[")
+
+    # to get our checksum, we need to get rid of the last bracket
+    sector_id, checksum = get_checksum(line)
 
     # our list of letters
     letters = []
