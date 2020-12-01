@@ -1,3 +1,4 @@
+import string
 import common
 import collections
 
@@ -37,6 +38,27 @@ def get_checksum(line):
     return (sector_id, checksum)
 
 
+def shift_letter_by(letter, amount):
+    # our amount is going to be a large number, 
+    # we just need the real offset
+    real_amount = amount % 26
+
+    # get a string of letters
+    letters = string.ascii_lowercase
+
+    # figure out what spot our letter is in
+    letter_index = letters.index(letter)
+
+    # get a new index for the answer
+    real_index = letter_index + real_amount
+
+    # if our new index is bigger than our letters, we need to shift it down
+    if real_index >= len(letters):
+        real_index = real_index % 26
+
+    return letters[real_index]
+
+
 def check_password(line):
     # vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
     parts = line.split("-")
@@ -72,7 +94,31 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    real_ones = []
+    for line in data:
+        if check_password(line):
+            real_ones.append(line)
+
+    for real_password in real_ones:
+        # spit up our password line by dashes
+        parts = real_password.split("-")
+
+        # get rid of the checksum part as we just need the letters
+        _ = parts.pop()
+
+        # calculate the checksum
+        sector_id, checksum = get_checksum(real_password)
+
+        # get our password string ready
+        result = ""
+
+        # loop over every character in the password
+        for character in "".join(parts):
+            result += shift_letter_by(character, sector_id)
+        
+        # find our answer
+        if "north" in result:
+            return sector_id
 
 
 def main():
