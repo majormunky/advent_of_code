@@ -37,7 +37,27 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    # setup list for each slot
+    results = [
+        [], [], [], [], [], [], [], []
+    ]
+
+    answer = ""
+
+    # here we need to build up our lists
+    for line in data:
+        for index, character in enumerate(line):
+            results[index].append(character)
+
+    # now that the lists are complete, we can count them
+    for index, slot in enumerate(results):
+        # create a counter per slot
+        counter = collections.Counter(slot)
+
+        # grab the least common character and add it to our answer
+        answer += counter.most_common()[-1][0]
+
+    return answer
 
 
 def main():
