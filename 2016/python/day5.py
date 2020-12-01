@@ -39,8 +39,40 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    i = 0
+    answer = [None, None, None, None, None, None, None, None]
+    done = False
+    while not done:
+        i += 1
+        test_string = "{}{}".format(data, i)
+        hash_val = get_md5(test_string)
+        if hash_val.startswith("00000"):
+            try:
+                index = int(hash_val[5])
+                val = hash_val[6]
+                if answer[index] is None:
+                    answer[index] = val
+                    print(i, print_answer(answer))
+                if all(answer):
+                    done = True
+            except (ValueError, IndexError):
+                continue
+        
+        if i > 5_000_000_000:
+            print(answer)
+            print("Stopping at 5 billion")
+            break
 
+    return "".join(answer)
+
+def print_answer(letters):
+    result = ""
+    for character in letters:
+        if character is None:
+            result += "_"
+        else:
+            result += character
+    return result
 
 def main():
     part1_answer = part1()
