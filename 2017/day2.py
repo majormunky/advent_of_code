@@ -31,7 +31,20 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    answer = 0
+
+    for line in data:
+        line_answer = 0
+        line_parts = get_parts(line)
+        
+        for i in line_parts:
+            for j in line_parts:
+                if i == j:
+                    continue
+                if int(i) % int(j) == 0:
+                    line_answer = int(int(i) / int(j))
+        answer += line_answer
+    return answer
 
 
 def main():
