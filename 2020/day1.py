@@ -27,8 +27,16 @@ def part1():
 
 
 def part2():
-    return "not complete"
-
+    answer = 0
+    for line in data:
+        for line2 in data:
+            for line3 in data:
+                left = int(line)
+                middle = int(line2)
+                right = int(line3)
+                if left + middle + right == 2020:
+                    answer = left * middle * right
+    return answer
 
 def main():
     part1_answer = part1()
