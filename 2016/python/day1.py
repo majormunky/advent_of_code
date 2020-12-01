@@ -48,10 +48,22 @@ def get_new_direction(current, left_or_right):
     return dirs[current][left_or_right]
 
 
-def check_for_collisions(new_line, line_list):
-    for line in line_list:
-        if new_line.get_intersection_point(line):
-            print("intersects")
+def find_first_intersection(point_list):
+    for i in range(len(point_list)):
+        try:
+            line = (point_list[i], point_list[i + 1])
+        except IndexError:
+            pass
+
+        try:
+            for i in range(len(point_list)):
+                if point_list[i] == line[0] and point_list[i + 1] == line[1]:
+                    continue
+                if line[0].x < point_list[i].x < line[1].x:
+                    if point_list[i].y < line[0].y < point_list[i + 1].y:
+                        return (point_list[i].x, line[0].y)
+        except IndexError:
+            pass
 
 
 def part1():
@@ -112,21 +124,26 @@ def part2():
         if new_direction == "N":
             y += steps
         elif new_direction == "W":
-            x += steps
-        elif new_direction == "E":
             x -= steps
+        elif new_direction == "E":
+            x += steps
         elif new_direction == "S":
             y -= steps
 
         points.append(Point(x, y))
 
+        current_direction = new_direction
+
+    answer = find_first_intersection(points)
+    return answer[0] + answer[1]
+
 
 def main():
     part1_answer = part1()
-    # part2_answer = part2()
+    part2_answer = part2()
 
     print(f"Part 1: {part1_answer}")
-    # print(f"Part 2: {part2_answer}")
+    print(f"Part 2: {part2_answer}")
 
 
 if __name__ == '__main__':
