@@ -26,7 +26,19 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    answer = 0
+    # figure out what half of our list size is
+    half_len = len(data) / 2
+    for index, character in enumerate(data):
+        try:
+            # use mod to make sure we don't overflow our list
+            next_index = int((half_len + index) % len(data))
+            next_char = data[next_index]
+            if next_char == character:
+                answer += int(character)
+        except IndexError:
+            pass
+    return answer
 
 
 def main():
