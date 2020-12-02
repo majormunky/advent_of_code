@@ -46,7 +46,42 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    done = False
+    index = 0
+    steps = 0
+
+    test_data = [int(x) for x in data]
+    
+    while not done:
+        try:
+            jump_amount = int(test_data[index])
+            if jump_amount == 0:
+                # increment our current index with new rules
+                if jump_amount >= 3:
+                    test_data[index] -= 1
+                else:
+                    test_data[index] += 1
+                # increase our steps
+                steps += 1
+            else:
+                # remember old index
+                old_index = index
+
+                # jump to new spot
+                index += jump_amount
+
+                # increment our old index location with new rules
+                if jump_amount >= 3:
+                    test_data[old_index] -= 1
+                else:
+                    test_data[old_index] += 1
+
+                # increase our steps now that we know we are done in this loop
+                steps += 1
+        except IndexError:
+            # the answer is found when we get an index outside of our list
+            done = True
+    return steps
 
 
 def main():
