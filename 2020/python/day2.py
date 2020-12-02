@@ -60,6 +60,7 @@ def check_password_part2(line):
         return True
     return False
 
+
 def part1():
     result = 0
     for item in data:
@@ -79,7 +80,6 @@ def part2():
 def main():
     part1_answer = part1()
     part2_answer = part2()
-
     print(f"Part 1: {part1_answer}")
     print(f"Part 2: {part2_answer}")
 
