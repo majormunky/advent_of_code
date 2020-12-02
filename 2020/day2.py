@@ -30,6 +30,36 @@ def check_password(line):
     return False
 
 
+def check_password_part2(line):
+    # break our line up into parts ['1-3', 'a:', 'abc123']
+    parts = line.split(" ")
+
+    # fix the check letter so we dont have the colon
+    check_letter = parts[1].replace(":", "")
+
+    # break up our 1-3 into separate numbers
+    index1, index2 = parts[0].split("-")
+
+    # fix the numbers so they are ints, and move to 0 based
+    index1 = int(index1) - 1
+    index2 = int(index2) - 1
+
+    # remember how many we match
+    matches = 0
+
+    # test first index
+    if parts[2][index1] == check_letter:
+        matches += 1
+
+    # test second index
+    if parts[2][index2] == check_letter:
+        matches += 1
+    
+    # password matches only when we have one match
+    if matches == 1:
+        return True
+    return False
+
 def part1():
     result = 0
     for item in data:
@@ -39,7 +69,11 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    result = 0
+    for item in data:
+        if check_password_part2(item):
+            result += 1
+    return result
 
 
 def main():
