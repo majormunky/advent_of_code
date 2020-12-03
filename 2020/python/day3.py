@@ -13,23 +13,24 @@ data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
 def run_slop_test(right, down):
+    # holds the map we will navigate
     field = []
+
+    # current position on the map
     pos = [0, 0]
+
+    # how many trees have we hit?
     tree_count = 0
+
+    # build our field
     for row in data:
         field.append(list(row))
+
     while True:
         # check what the current spot is
         if field[pos[1]][pos[0]] == "#":
             # its a tree, increase our count
             tree_count += 1
-
-            # for visuals, mark this as an x
-            field[pos[1]][pos[0]] = "X"
-        else:
-            # we did not hit a tree
-            # mark with a O for visuals
-            field[pos[1]][pos[0]] = "O"
 
         # increase our position further down the field
         pos[0] += right
@@ -45,7 +46,6 @@ def run_slop_test(right, down):
             break
 
     return tree_count
-
 
 
 def part1():
