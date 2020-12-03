@@ -49,44 +49,7 @@ def run_slop_test(right, down):
 
 
 def part1():
-    field = []
-    pos = [0, 0]
-    tree_count = 0
-    for row in data:
-        field.append(list(row))
-
-    # loop until we are done
-    while True:
-        # check what the current spot is
-        if field[pos[1]][pos[0]] == "#":
-            # its a tree, increase our count
-            tree_count += 1
-
-            # for visuals, mark this as an x
-            field[pos[1]][pos[0]] = "X"
-        else:
-            # we did not hit a tree
-            # mark with a O for visuals
-            field[pos[1]][pos[0]] = "O"
-
-        # increase our position further down the field
-        pos[0] += 3
-        pos[1] += 1
-
-        # if we reached the right side of the field
-        # then we reset our position back to the start
-        if pos[0] >= len(field[0]):
-            pos[0] = pos[0] - len(field[0])
-
-        # if we've reached the bottom of the field, we are done
-        if pos[1] >= len(field):
-            break
-        
-    # print out the field for fun
-    # for row in field:
-    #     print("".join(row))
-
-    return tree_count
+    return run_slop_test(3, 1)
 
 
 def part2():
