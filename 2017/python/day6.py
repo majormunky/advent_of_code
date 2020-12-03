@@ -60,14 +60,42 @@ def part1():
             amount -= 1
         steps += 1
         if memory in old_memory:
-            write_data(old_memory)
+            # write_data(old_memory)
             return steps
         else:
             old_memory.append(list(memory))
 
 
 def part2():
-    return "not complete"
+    # list of 16 ints
+    memory = build_memory_bank()
+    
+    # our cache of old memory
+    old_memory = []
+
+    # amount of steps taken
+    steps = 0
+
+    while True:
+        highest_amount_index = get_highest_bank(memory)
+        amount = memory[highest_amount_index]
+        memory[highest_amount_index] = 0
+        while amount > 0:
+            highest_amount_index += 1
+            if highest_amount_index >= len(memory):
+                highest_amount_index = 0
+            memory[highest_amount_index] += 1
+            amount -= 1
+        steps += 1
+        if memory in old_memory:
+            # where in our list is our first time we saw this
+            mem_index = old_memory.index(memory)
+
+            # our loop length is our index to the end of our loop
+            how_long_ago = len(old_memory) - mem_index
+            return how_long_ago
+        else:
+            old_memory.append(list(memory))
 
 
 def main():
