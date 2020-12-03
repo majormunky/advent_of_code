@@ -1,5 +1,6 @@
 import sys
 import common
+import math
 
 
 def get_filename():
@@ -11,16 +12,48 @@ def get_filename():
 data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
+def run_slop_test(right, down):
+    field = []
+    pos = [0, 0]
+    tree_count = 0
+    for row in data:
+        field.append(list(row))
+    while True:
+        # check what the current spot is
+        if field[pos[1]][pos[0]] == "#":
+            # its a tree, increase our count
+            tree_count += 1
+
+            # for visuals, mark this as an x
+            field[pos[1]][pos[0]] = "X"
+        else:
+            # we did not hit a tree
+            # mark with a O for visuals
+            field[pos[1]][pos[0]] = "O"
+
+        # increase our position further down the field
+        pos[0] += right
+        pos[1] += down
+
+        # if we reached the right side of the field
+        # then we reset our position back to the start
+        if pos[0] >= len(field[0]):
+            pos[0] = pos[0] - len(field[0])
+
+        # if we've reached the bottom of the field, we are done
+        if pos[1] >= len(field):
+            break
+
+    return tree_count
+
+
+
 def part1():
     field = []
     pos = [0, 0]
     tree_count = 0
     for row in data:
         field.append(list(row))
-
-    print("Field Size:")
-    print("Width:", len(field[0]))
-    print("Height:", len(field))
 
     # loop until we are done
     while True:
@@ -50,14 +83,25 @@ def part1():
             break
         
     # print out the field for fun
-    for row in field:
-        print("".join(row))
+    # for row in field:
+    #     print("".join(row))
 
     return tree_count
 
 
 def part2():
-    return "not complete"
+    slope_tests = [
+        (1, 1),
+        (3, 1),
+        (5, 1),
+        (7, 1),
+        (1, 2),
+    ]
+    answers = []
+    for slope in slope_tests:
+        answers.append(run_slop_test(slope[0], slope[1]))
+
+    return math.prod(answers)
 
 
 def main():
