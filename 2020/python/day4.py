@@ -51,6 +51,65 @@ def validate_passport(passport):
     return valid
 
 
+def is_inbetween(val, start, end):
+    return start <= val <= end
+
+
+def get_height(val):
+    if "in" in val:
+        return {"val": int(val.replace("in", "")), "type": "inch"}
+    else:
+        return {"val": int(val.replace("cm", "")), "type": "cm"}
+
+
+def is_valid_color(color):
+    if "#" not in color:
+        return False
+    valid_characters = ["a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    for character in color[1:]:
+        if character not in valid_characters:
+            print("Character not in valid characters: {}".format(character))
+            return False
+    return True
+
+def validate_password_better(passport):
+    if not validate_passport(passport):
+        return False
+
+    for k, v in passport.items():
+        if k == "byr":
+            val = int(passport[k])
+            if not is_inbetween(val, 1920, 2002):
+                return False
+        elif k == "iyr":
+            val = int(passport[k])
+            if not is_inbetween(val, 2010, 2020):
+                return False
+        elif k == "eyr":
+            val = int(passport[k])
+            if not is_inbetween(val, 2020, 2030):
+                return False
+        elif k == "hgt":
+            height = get_height(v)
+            if height["type"] == "cm":
+                if not is_inbetween(height["val"], 150, 193):
+                    return False
+            else:
+                if not is_inbetween(height["val"], 59, 76):
+                    return False
+        elif k == "hcl":
+            if not is_valid_color(v):
+                return False
+        elif k == "ecl":
+            valid_colors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
+            if v not in valid_colors:
+                return False
+        elif k == "pid":
+            if len(v) != 9:
+                return False
+    return True
+
+
 def get_passports(lines):
     """
     Build list of passports by reading in the list
@@ -85,7 +144,6 @@ def build_passport(data):
 
 def part1():
     passport_list = get_passports(data)
-    result = []
     valid = 0
     for p in passport_list:
         passport = build_passport(p)
@@ -95,7 +153,13 @@ def part1():
 
 
 def part2():
-    return "not complete"
+    valid = 0
+    passport_list = get_passports(data)
+    for p in passport_list:
+        passport = build_passport(p)
+        if validate_password_better(passport):
+            valid += 1
+    return valid
 
 
 def main():
@@ -108,4 +172,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
