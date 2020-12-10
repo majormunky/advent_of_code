@@ -57,8 +57,40 @@ def part1():
             highest = seat_id
     return highest
 
+
+def find_missing_seat(seat_list):
+    for i in range(8):
+        if i not in seat_list:
+            print(i)
+            return i
+    return False
+
+
 def part2():
-    return None
+    seats = {}
+    for line in data:
+        row = find_row(line)
+        col = find_seat(line)
+        seat_id = get_seat_id(row, col)
+        if row not in seats.keys():
+            seats[row] = []
+        seats[row].append(col)
+    
+    sorted_keys = sorted(seats.keys())
+
+    missing_seat = None
+    found_row = None
+    for index, k in enumerate(sorted_keys):
+        if index == 0 or index == sorted_keys[-1] or len(seats[k]) == 1:
+            continue
+        if len(seats[k]) != 8:
+            missing_seat = find_missing_seat(seats[k])
+            found_row = k
+            break
+
+    return get_seat_id(k, missing_seat)
+    
+
 
 
 def main():
