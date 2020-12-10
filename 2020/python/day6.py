@@ -36,6 +36,22 @@ def count_answers(answer_list):
     return len(answers)
 
 
+def count_all_answers(answer_list):
+    people_count = len(answer_list)
+    data = {}
+    result = 0
+    for answer in answer_list:
+        for char in answer:
+            if char not in data.keys():
+                data[char] = 0
+            data[char] += 1
+    for k, v in data.items():
+        if v == people_count:
+            result += 1
+    return result
+
+
+
 def part1():
     total = 0
     groups = split_into_groups(data)
@@ -45,7 +61,11 @@ def part1():
 
 
 def part2():
-    return "not done"
+    total = 0
+    groups = split_into_groups(data)
+    for g in groups:
+        total += count_all_answers(g)
+    return total
     
 
 def main():
