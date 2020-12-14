@@ -1,12 +1,13 @@
+import pprint
 import sys
 import common
 
 
 def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
+	filename = sys.argv[0]
+	filename = filename.split("/")[-1]
+	filename = filename.split(".")[0]
+	return filename
 
 
 data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
@@ -23,63 +24,73 @@ dotted black bags contain no other bags.
 """
 
 
-"""
-bright white bags contain 1 shiny gold bag.
-
-
-1: Find bags that can directly hold gold bags,
-	add them to the dictionary.  Key is bag name, 
-	value a dictionary holding an amount of gold bags
-	and if this bag should be checked into next loop
-	This will allow us to be sure we walk down the tree correctly
-2: Find any bags that can hold any bags we are tracking,
-	if so, add them to our dictionary, and set existing keys to not being tracked
-"""
-
-bags = {
-	"bright white bags": {"amount": 1, "tracked": True},
-	"muted yellow bags": {"amount": 2, "tracked": True}
-}
-
-
-def find_direct_gold_holding_bags(data):
+def find_gold_holding_bags(data):
 	result = {}
 	for line in data:
 		parts = line.split("contain")
 		if len(line) == 0:
 			continue
-		holding_bag = parts[0]
-		bags_being_held = []
+		holding_bag = parts[0].replace("bags", "bag").strip()
+		bags_being_held = {}
 		for bag in parts[1].split(","):
 			bag = bag.strip()
 			if "no other bags." not in bag:
-				bag_data = []
 				bag_parts = bag.split(" ")
-				bag_data.append(int(bag_parts.pop(0)))
-				bag_parts.pop()
+				bag_parts.pop(0)
 				fixed_bag_name = " ".join(bag_parts)
-				fixed_bag_name = fixed_bag_name.replace(".", "")
-				bag_data.append(fixed_bag_name)
-				bags_being_held.append(bag_data)
+				fixed_bag_name = fixed_bag_name.replace(".", "").replace("bags", "bag")
+				bags_being_held[fixed_bag_name] = {}
 		result[holding_bag] = bags_being_held
+
+	
+	for k, v in result.items():
+		# print(k)
+		for subk, subv in v.items():
+			# print("\t", subk, subv)
+			if subk in result.keys() and subk != "shiny gold bag":
+				result[k][subk] = result[subk]
+				# print("\t\t!", result[subk])
+
 	return result
 
+
+def check_bag_for_gold(bag_data):
+	test = str(bag_data)
+	if "shiny gold" in test:
+		return True
+	return False
+
+
 def part1():
-    bags = find_direct_gold_holding_bags(test_data.split("\n"))
-    print(bags)
+	# first we arrange our data in layers of dicts
+	bags = find_gold_holding_bags(data)
+
+	# this will hold our bag names that contain shiny gold bags
+	result = set()
+
+	# check each bag
+	for key in bags.keys():
+
+		# this checks if the string "shiny gold" is in the dictionary
+		if check_bag_for_gold(bags[key]):
+			# if so, add our key
+			result.add(key)
+
+	# the answer is the amount of results we've added
+	return len(result)
 
 
 def part2():
-    return "not done"
-    
+	return "not done"
+	
 
 def main():
-    part1_answer = part1()
-    part2_answer = part2()
+	part1_answer = part1()
+	part2_answer = part2()
 
-    print(f"Part 1: {part1_answer}")
-    print(f"Part 2: {part2_answer}")
+	print(f"Part 1: {part1_answer}")
+	print(f"Part 2: {part2_answer}")
 
 
 if __name__ == '__main__':
-    main()
+	main()
