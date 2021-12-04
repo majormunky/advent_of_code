@@ -1,6 +1,12 @@
 extends Node2D
 
 onready var line = $Line2D
+onready var path = $Path2D
+onready var path_follow = $Path2D/PathFollow2D
+onready var submarine = $Path2D/PathFollow2D/Submarine
+
+func _process(delta):
+	path_follow.offset += 25 * delta
 
 
 func _ready():
@@ -13,6 +19,8 @@ func _ready():
 	
 	print("Points Loaded: ", len(points))
 	
+	submarine.global_position = Vector2(0, points[0])
+	
 	for y_pos in points:
 		y_pos = int(y_pos)
 
@@ -23,7 +31,9 @@ func _ready():
 		if y_pos > max_point:
 			max_point = y_pos
 
-		line.add_point(Vector2(x_pos, y_pos))
+		var new_point = Vector2(x_pos, y_pos)
+		line.add_point(new_point)
+		path.curve.add_point(new_point)
 		x_pos += 10
 	
 	print("Min: ", min_point, " Max: ", max_point)
