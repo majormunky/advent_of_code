@@ -3,6 +3,8 @@ from common import get_file_contents
 
 class BingoBoard:
 	def __init__(self, data):
+		self.winning_number = None
+		self.completed = False
 		self.lines = []
 		for line in data:
 			
@@ -42,7 +44,7 @@ class BingoBoard:
 			for col_index, col in enumerate(line):
 				if col is False:
 					score += int(self.lines[line_index][col_index])
-		return score
+		return score * self.winning_number
 
 	def print_board(self):
 		output = []
@@ -90,24 +92,45 @@ def p1():
 		for board in boards:
 			board.check_number(num)
 			if board.check_board():
-				board_score = board.get_score()
-				score = board_score * int(num)
+				board.winning_number = int(num)
 				winning_board = board
 				break
 		else:
 			continue
 		break
-	print("Winner!")
-	winning_board.print_board()
+	# print("Winner!")
+	# winning_board.print_board()
 	print()
 
-	return score
+	return winning_board.get_score()
 
 def p2():
-	pass
+	data = get_file_contents("data/day4_input.txt")
+	bingo_numbers = data.pop(0)
+	blank_line = data.pop(0)
+
+	boards = build_boards(data)
+
+	done = False
+
+	numbers_drawn = []
+
+	winning_boards = []
+
+	for num in bingo_numbers.split(","):
+		numbers_drawn.append(num)
+		for board in boards:
+			if board.completed == False:
+				board.check_number(num)
+				if board.check_board():
+					board.winning_number = int(num)
+					board.completed = True
+					winning_boards.append(board)
+
+	score = winning_boards[-1].get_score()
+	return score
 
 
 if __name__ == '__main__':
-	# not 12924
 	print("Part 1:", p1())
 	print("Part 2:", p2())
