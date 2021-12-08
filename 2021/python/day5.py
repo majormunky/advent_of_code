@@ -34,7 +34,14 @@ class Line:
 			if self.start.x > self.end.x:
 				self.start, self.end = self.end, self.start
 		else:
-			self.direction = "unknown"
+			rx = abs(self.end.x - self.start.x)
+			ry = abs(self.end.y - self.start.y)
+			if rx == ry:
+				if self.start.x > self.end.x:
+					self.start, self.end = self.end, self.start
+				self.direction = "diagonal"
+			else:
+				self.direction = "unknown"
 
 
 class Board:
@@ -44,7 +51,12 @@ class Board:
 		self.width = width
 		self.height = height
 		self.overlaps = 0
+		self.diagonal = False
 		self.setup_grid()
+
+
+	def set_diagonal(self, val):
+		self.diagonal = val
 
 	def setup_grid(self):
 		self.grid = [["." for x in range(self.width)] for y in range(self.height)]
@@ -63,6 +75,15 @@ class Board:
 			while y <= new_line.end.y:
 				self.mark_pos_on_board(x, y)
 				y += 1
+		elif new_line.direction == "diagonal":
+			if self.diagonal:
+				while x <= new_line.end.x:
+					self.mark_pos_on_board(x, y)
+					x += 1
+					if y > new_line.end.y:
+						y -= 1
+					else:
+						y += 1
 	
 
 	def add_lines(self, line_list):
@@ -114,7 +135,21 @@ def p1():
 
 
 def p2():
-	pass
+	lines = get_file_contents("data/day5_input.txt")
+	board_lines = []
+	max_x = 0
+	max_y = 0
+	for line in lines:
+		new_line = parse_line(line)	
+		board_lines.append(new_line)
+		max_x = max(max_x, new_line.start.x, new_line.end.x)
+		max_y = max(max_y, new_line.start.y, new_line.end.y)
+
+	board = Board(max_x + 40, max_y + 40)
+	board.set_diagonal(True)
+	board.add_lines(board_lines)
+	render_grid(board.grid)
+	return board.get_collision_count()
 
 
 def render_grid(data):
@@ -134,7 +169,7 @@ def render_grid(data):
 
 	print("TOTAL", total)
 
-	input_image.save("output", format="png")
+	input_image.save("p2.png", format="png")
 
 
 if __name__ == '__main__':
