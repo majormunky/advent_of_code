@@ -35,13 +35,11 @@ def check_line(line):
 	if len(line_data):
 		# print("line incomplete, we have", len(line_data), "items left")
 		# print(line_data)
-		return "incomplete", None
+		return "incomplete", line_data
 	return "normal", None
 
 
-def get_data():
-	source = "real"
-
+def get_data(source="real"):
 	test_data = """
 		[({(<(())[]>[[{[]{<()<>>
 		[(()[<>])]({[<{<<[]>>(
@@ -65,8 +63,7 @@ def get_data():
 		return result
 
 
-def p1():
-	lines = get_data()
+def organize_data(lines):
 	result = {
 		"corrupt": [],
 		"incomplete": [],
@@ -76,15 +73,16 @@ def p1():
 	for line_index, line in enumerate(lines):
 		line_result = check_line(line)
 		# print("----------------", line_index, line_result)
-		if line_result[0] == "corrupt":
+		if line_result[0] in ["corrupt", "incomplete"]:
 			result[line_result[0]].append([line, line_result[1]])
 		else:	
 			result[line_result[0]].append(line)
+	return result
 
-	# print("Corrupt:", len(result["corrupt"]))
-	# print("Incomplete:", len(result["incomplete"]))
-	# print("Normal:", len(result["normal"]))
-	# print(result["corrupt"])
+
+def p1():
+	lines = get_data()
+	result = organize_data(lines)
 
 	points = {
 		"}": 1197,
@@ -97,8 +95,49 @@ def p1():
 	for corrupt_item in result["corrupt"]:
 		score += points[corrupt_item[1]]
 	return score
+
+
+def fix_line(line_items):
+	result = []
+	for item in line_items:
+		opener_index = openers.index(item)
+		closer_char = closers[opener_index]
+		result.append(closer_char)
+	result.reverse()
+	return result
+
+
+def score_item(char_list):
+	points = {
+		")": 1,
+		"]": 2,
+		"}": 3,
+		">": 4
+	}
+
+	score = 0
+
+	for item in char_list:
+		score *= 5
+		item_point = points[item]
+		score += item_point
+	return score
+
+
 def p2():
-	pass
+	lines = get_data("real")
+	result = organize_data(lines)
+
+	score_list = []
+	
+	for item in result["incomplete"]:
+		fix = fix_line(item[1])
+		score = score_item(fix)
+		score_list.append(score)
+	score_list = sorted(score_list)
+	len_scores = len(score_list)
+	middle_index = len_scores // 2
+	return score_list[middle_index]
 
 
 if __name__ == '__main__':
