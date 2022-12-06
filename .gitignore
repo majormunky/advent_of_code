@@ -3,3 +3,7 @@
 *.pyc
 .DS_Store
 .import/
+
+# rust stuff
+debug/
+target/
