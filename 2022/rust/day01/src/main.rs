@@ -1,7 +1,34 @@
 use std::fs;
+use std::env;
 
 fn main() {
-    println!("{}", part1());
+    let args = get_args();
+
+    match args {
+        Err(why) => println!("{:?}", why),
+        Ok(which_part) => {
+            match which_part.as_str() {
+                "part1" => {
+                    let answer = part1();
+                    println!("Part 1: {}", answer);
+                },
+                "part2" => {
+                    println!("Part 2: Not implemented");
+                },
+                _ => {
+                    println!("Unknown Arg! -> {:?}", which_part);
+                }
+            }
+        }
+    }
+}
+
+fn get_args() -> Result<String, &'static str> {
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        return Err("not enough arguments");
+    }
+    Ok(args[1].clone())
 }
 
 fn part1() -> u32 {
