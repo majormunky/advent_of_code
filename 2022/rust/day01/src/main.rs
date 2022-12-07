@@ -1,6 +1,10 @@
 use std::fs;
 
 fn main() {
+    println!("{}", part1());
+}
+
+fn part1() -> u32 {
     let filename = "day01_data.txt";
     let contents = fs::read_to_string(filename)
         .expect("Should have been able to read the file");
@@ -37,5 +41,5 @@ fn main() {
         current_calories += calorie;
     }
 
-    println!("Total Calories: {}", max_calories);
+    max_calories
 }
