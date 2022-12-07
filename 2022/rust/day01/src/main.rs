@@ -1,5 +1,14 @@
 use std::fs;
 use std::env;
+use std::fs::File;
+use std::io::{self, BufRead};
+use std::path::Path;
+
+// taken from: https://doc.rust-lang.org/stable/rust-by-example/std_misc/file/read_lines.html
+fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>> where P: AsRef<Path>, {
+    let file = File::open(filename)?;
+    Ok(io::BufReader::new(file).lines())
+}
 
 fn main() {
     let args = get_args();
@@ -13,7 +22,8 @@ fn main() {
                     println!("Part 1: {}", answer);
                 },
                 "part2" => {
-                    println!("Part 2: Not implemented");
+                    let answer = part2();
+                    println!("Part 2: {}", answer);
                 },
                 _ => {
                     println!("Unknown Arg! -> {:?}", which_part);
@@ -31,41 +41,49 @@ fn get_args() -> Result<String, &'static str> {
     Ok(args[1].clone())
 }
 
+
+fn part2() -> u32 {
+
+
+
+    10
+}
+
+
 fn part1() -> u32 {
     let filename = "day01_data.txt";
-    let contents = fs::read_to_string(filename)
-        .expect("Should have been able to read the file");
-    let line_iter = contents.split("\n");
-    let lines = line_iter.collect::<Vec<&str>>();
     let mut max_calories = 0;
     let mut current_calories = 0;
 
-    for line in &lines {
-        // Take our line and trim off any line endings
-        let trimmed_line = line.trim();
+    if let Ok(lines) = read_lines(filename) {
+        for line in lines {
+            if let Ok(the_line) = line {
+                let trimmed_line = the_line.trim();
 
-        // if our line is empty
-        if trimmed_line.is_empty() {
-            // it means we need to get our current count
-            // and check if its larger than our max
-            if current_calories > max_calories {
-                // and if so, set it as the new max
-                max_calories = current_calories;
+                // if our line is empty
+                if trimmed_line.is_empty() {
+                    // it means we need to get our current count
+                    // and check if its larger than our max
+                    if current_calories > max_calories {
+                        // and if so, set it as the new max
+                        max_calories = current_calories;
+                    }
+
+                    // reset the current count
+                    current_calories = 0;
+
+                    // skip the rest of this loop
+                    continue;
+                }
+
+                // if we are here, it means we have some data on the line
+                // convert the line as a string to an integer
+                let calorie: u32 = trimmed_line.parse().expect("Not a number");
+
+                // and add it to our current count
+                current_calories += calorie;
             }
-
-            // reset the current count
-            current_calories = 0;
-
-            // skip the rest of this loop
-            continue;
         }
-
-        // if we are here, it means we have some data on the line
-        // convert the line as a string to an integer
-        let calorie: u32 = trimmed_line.parse().expect("Not a number");
-
-        // and add it to our current count
-        current_calories += calorie;
     }
 
     max_calories
