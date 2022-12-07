@@ -1,4 +1,3 @@
-use std::fs;
 use std::env;
 use std::fs::File;
 use std::io::{self, BufRead};
@@ -43,10 +42,52 @@ fn get_args() -> Result<String, &'static str> {
 
 
 fn part2() -> u32 {
+    let filename = "day01_data.txt";
+    let mut data_list: Vec<u32> = Vec::new();
+    let mut current_calories = 0;
+
+    if let Ok(lines) = read_lines(filename) {
+        for line in lines {
+            if let Ok(the_line) = line {
+                let line_value: LineValue = get_line_value(&the_line);
+                match line_value {
+                    LineValue::BlankLine => {
+                        data_list.push(current_calories);
+                        current_calories = 0;
+                    },
+                    LineValue::CalorieAmount(cal_amount) => {
+                        current_calories += cal_amount;
+                    }
+                }
+            }
+        }
+    }
+
+    data_list.sort();
+    let mut result = 0;
+    let result_size = data_list.len();
+    result += data_list[result_size - 1];
+    result += data_list[result_size - 2];
+    result += data_list[result_size - 3];
+
+    result
+}
 
 
+enum LineValue {
+    BlankLine,
+    CalorieAmount(u32)
+}
 
-    10
+
+fn get_line_value(line: &str) -> LineValue {
+    let trimmed_line = line.trim();
+
+    if trimmed_line.is_empty() {
+        return LineValue::BlankLine;
+    }
+    let calorie: u32 = trimmed_line.parse().expect("Not a number");
+    LineValue::CalorieAmount(calorie)
 }
 
 
@@ -58,30 +99,18 @@ fn part1() -> u32 {
     if let Ok(lines) = read_lines(filename) {
         for line in lines {
             if let Ok(the_line) = line {
-                let trimmed_line = the_line.trim();
-
-                // if our line is empty
-                if trimmed_line.is_empty() {
-                    // it means we need to get our current count
-                    // and check if its larger than our max
-                    if current_calories > max_calories {
-                        // and if so, set it as the new max
-                        max_calories = current_calories;
+                let line_value: LineValue = get_line_value(&the_line);
+                match line_value {
+                    LineValue::BlankLine => {
+                        if current_calories > max_calories {
+                            max_calories = current_calories;
+                        }
+                        current_calories = 0;
+                    },
+                    LineValue::CalorieAmount(cal_amount) => {
+                        current_calories += cal_amount;
                     }
-
-                    // reset the current count
-                    current_calories = 0;
-
-                    // skip the rest of this loop
-                    continue;
                 }
-
-                // if we are here, it means we have some data on the line
-                // convert the line as a string to an integer
-                let calorie: u32 = trimmed_line.parse().expect("Not a number");
-
-                // and add it to our current count
-                current_calories += calorie;
             }
         }
     }
