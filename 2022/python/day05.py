@@ -23,10 +23,11 @@ def parse_stack_data(lines):
 
     chunk_size = 4
     for line in lines:
-        for i in range(9):
-            if line[i * chunk_size] == "[":
+        for i in range(len(bucket_names)):
+            i_key = i * chunk_size
+            if line[i_key] == "[":
                 key = str(i + 1)
-                data[key].append(line[(i * chunk_size) + 1])
+                data[key].append(line[i_key + 1])
 
     return data
 
@@ -34,16 +35,16 @@ def parse_stack_data(lines):
 def render_stacks(data):
     tallest_stack = 50
 
-    # for i in range(1, 10):
-    #     stack_height = len(data[str(i)])
-    #     if stack_height > tallest_stack:
-    #         tallest_stack = stack_height
-
+    bucket_size = len(data)
     lines = []
     for _ in range(tallest_stack):
-        lines.append(" " * (9 * 4))
+        lines.append(" " * (bucket_size * 4))
 
-    last_line = " 1   2   3   4   5   6   7   8   9 "
+    last_line = " "
+    for i in range(1, bucket_size + 1):
+        last_line += "{}   ".format(i)
+    last_line = last_line.rstrip()
+    last_line += " "
     lines.append(last_line)
 
     for k, v in data.items():
@@ -90,13 +91,30 @@ def parse_instruction(inst):
 def step(instruction, data):
     frames = []
     for _ in range(instruction["amount"]):
-        crate = data[instruction["from"]].pop()
-        data[instruction["to"]].append(crate)
+        from_pile = data[instruction["from"]]
+        crate = from_pile.pop(0)
+        to_pile = data[instruction["to"]]
+        data[instruction["to"]] = [crate] + to_pile
         frames.append(render_stacks(data))
     return frames
 
 
+def get_test_lines():
+    return [
+        "    [D]    \n",
+        "[N] [C]    \n",
+        "[Z] [M] [P]\n",
+        " 1   2   3 \n",
+        "\n",
+        "move 1 from 2 to 1\n",
+        "move 3 from 1 to 3\n",
+        "move 2 from 2 to 1\n",
+        "move 1 from 1 to 2\n",
+    ]
+
+
 def p1():
+    should_render_frames = False
     lines = get_file_contents(
         "data/day05_input.txt", single_line=False, strip_line=False
     )
@@ -108,20 +126,23 @@ def p1():
     frames.append(render_stacks(data))
 
     for instruction in instructions:
-        frames.extend(step(instruction, data))
+        frame_list = step(instruction, data)
+        frames.extend(frame_list)
 
-    print(len(frames))
+    if should_render_frames:
+        for index, frame in enumerate(frames):
+            os.system("clear")
+            sys.stdout.write("frame: " + str(index + 1))
+            for line in frame:
+                sys.stdout.write(line + "\n")
+            sys.stdout.flush()
+            time.sleep(0.01)
 
-    # parse_stack_data(top_part)
-    # print_stacks(top_part)
-
-    for index, frame in enumerate(frames):
-        os.system("clear")
-        sys.stdout.write("frame: " + str(index + 1))
-        for line in frame:
-            sys.stdout.write(line + "\n")
-        sys.stdout.flush()
-        time.sleep(0.01)
+    result = ""
+    for i in range(1, len(data) + 1):
+        result += data[str(i)][0]
+    print_stacks(frames[-1])
+    print(result)
 
 
 def p2():
