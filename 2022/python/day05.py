@@ -88,7 +88,23 @@ def parse_instruction(inst):
     return result
 
 
-def step(instruction, data):
+def step_p2(instruction, data):
+    frames = []
+    pile = []
+
+    # pick up all crates first
+    for _ in range(instruction["amount"]):
+        from_pile = data[instruction["from"]]
+        crate = from_pile.pop(0)
+        pile.append(crate)
+
+    to_pile = data[instruction["to"]]
+    data[instruction["to"]] = pile + to_pile
+    frames.append(render_stacks(data))
+    return frames
+
+
+def step_p1(instruction, data):
     frames = []
     for _ in range(instruction["amount"]):
         from_pile = data[instruction["from"]]
@@ -126,7 +142,7 @@ def p1():
     frames.append(render_stacks(data))
 
     for instruction in instructions:
-        frame_list = step(instruction, data)
+        frame_list = step_p1(instruction, data)
         frames.extend(frame_list)
 
     if should_render_frames:
@@ -146,11 +162,39 @@ def p1():
 
 
 def p2():
-    pass
+    should_render_frames = False
+    lines = get_file_contents(
+        "data/day05_input.txt", single_line=False, strip_line=False
+    )
+    data = parse_stack_data(get_stack_data(lines))
+    instructions = get_instructions(lines)
+
+    frames = []
+
+    frames.append(render_stacks(data))
+
+    for instruction in instructions:
+        frame_list = step_p2(instruction, data)
+        frames.extend(frame_list)
+
+    if should_render_frames:
+        for index, frame in enumerate(frames):
+            os.system("clear")
+            sys.stdout.write("frame: " + str(index + 1))
+            for line in frame:
+                sys.stdout.write(line + "\n")
+            sys.stdout.flush()
+            time.sleep(0.01)
+
+    result = ""
+    for i in range(1, len(data) + 1):
+        result += data[str(i)][0]
+    print_stacks(frames[-1])
+    print(result)
 
 
 def main():
-    p1()
+    p2()
 
 
 if __name__ == "__main__":
