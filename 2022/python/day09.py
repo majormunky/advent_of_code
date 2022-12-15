@@ -18,8 +18,16 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.parent = None
+        self.child = None
         self.visited_tiles = set()
         self.visited_tiles.add((self.x, self.y))
+
+    def add_child(self, other):
+        self.child = other
+
+    def add_parent(self, other):
+        self.parent = other
 
     def move(self, direction_list):
         for direction in direction_list:
