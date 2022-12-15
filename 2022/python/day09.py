@@ -195,24 +195,71 @@ def display_frame(frame):
 
 
 def p2():
-    test_lines = [
-        "R 4",
-        "U 4",
-        "L 3",
-        "D 1",
-        "R 4",
-        "D 1",
-        "L 5",
-        "R 2"
+    test_lines2 = [
+        "R 5",
+        "U 8",
+        "L 8",
+        "D 3",
+        "R 17",
+        "D 10",
+        "L 25",
+        "U 20",
     ]
 
-    start = Point(0, 0)
+    TOTAL_NODES = 8
+
+    frames = []
+
+    nodes_created = 1
+    # start = Point(0, 0)
     head = Point(0, 0)
-    tail = Point(0, 0)
+    tail = head
+
+    while nodes_created <= TOTAL_NODES:
+        new_node = Point(0, 0)
+        tail.add_child(new_node)
+        new_node.add_parent(tail)
+        tail = new_node
+        nodes_created += 1
+
+    current_node = head
+
+    for line in test_lines2:
+        current_direction, amount = line.split(" ")
+        steps_left = int(amount)
+        direction_map = {
+            "L": "west",
+            "R": "east",
+            "U": "north",
+            "D": "south"
+        }
+
+        for step in range(steps_left):
+            step_direction = direction_map[current_direction]
+            print(step_direction)
+            head.move([step_direction])
+            print("Head", head.visited_tiles)
+            current_node = head.child
+            while current_node:
+                print("---")
+                parent_distance = current_node.distance_to(current_node.parent)
+                print("Parent distance", parent_distance)
+                if parent_distance > 1:
+                    parent_direction = current_node.direction_to(current_node.parent)
+                    print(parent_direction)
+                    current_node.move(parent_direction)
+                if not current_node.child:
+                    print("found node without child")
+                    print(current_node.visited_tiles)
+                    break
+                current_node = current_node.child
+
+    print(len(tail.visited_tiles))
+    print("Done")
 
 
 def main():
-    p1()
+    p2()
 
 
 if __name__ == "__main__":
