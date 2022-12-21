@@ -15,9 +15,10 @@ def print_message(msg):
 
 
 class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, x, y, icon):
+        self.x = int(x)
+        self.y = int(y)
+        self.icon = icon
         self.parent = None
         self.child = None
         self.visited_tiles = set()
@@ -92,6 +93,27 @@ def render_board(width, height, start, head, tail):
 
     lines.append(f"Tail: {tail.x}, {tail.y}\n")
     lines.append(f"Head: {head.x}, {head.y}\n")
+
+    return "\n".join(reversed(lines))
+
+
+def render_board_p2(width, height, start, head):
+    lines = []
+    for y in range(height):
+        line = ""
+        for x in range(width):
+            line += "."
+        lines.append(line)
+
+    node = head
+    while True:
+        # print(node.icon, node.x, node.y)
+        line_list = list(lines[node.y])
+        line_list[node.x] = node.icon
+        lines[node.y] = "".join(line_list)
+        if not node.child:
+            break
+        node = node.child
 
     return "\n".join(reversed(lines))
 
@@ -195,6 +217,17 @@ def display_frame(frame):
 
 
 def p2():
+    test_lines = [
+        "R 4",
+        "U 4",
+        "L 3",
+        "D 1",
+        "R 4",
+        "D 1",
+        "L 5",
+        "R 2"
+    ]
+    
     test_lines2 = [
         "R 5",
         "U 8",
@@ -206,25 +239,37 @@ def p2():
         "U 20",
     ]
 
-    TOTAL_NODES = 8
+    lines = get_file_contents("data/day09_input.txt")
 
     frames = []
 
-    nodes_created = 1
-    # start = Point(0, 0)
-    head = Point(0, 0)
+    nodes_to_create = 8
+    start = Point(100, 100, "s")    
+    head = Point(start.x, start.y, "H")
     tail = head
 
-    while nodes_created <= TOTAL_NODES:
-        new_node = Point(0, 0)
+    board_size = 400
+
+    while nodes_to_create >= 0:
+        if nodes_to_create == 0:
+            new_node = Point(start.x, start.y, "T")
+        else:
+            new_node = Point(start.x, start.y, str(nodes_to_create))
         tail.add_child(new_node)
         new_node.add_parent(tail)
         tail = new_node
-        nodes_created += 1
+        nodes_to_create -= 1
 
     current_node = head
 
-    for line in test_lines2:
+    # frames.append(
+    #     {
+    #         "frame": render_board_p2(board_size, board_size, start, head),
+    #         "line": ""
+    #     }
+    # )
+
+    for line in lines:
         current_direction, amount = line.split(" ")
         steps_left = int(amount)
         direction_map = {
@@ -236,28 +281,33 @@ def p2():
 
         for step in range(steps_left):
             step_direction = direction_map[current_direction]
-            print(step_direction)
             head.move([step_direction])
-            print("Head", head.visited_tiles)
+            # frames.append(
+            #     {
+            #         "frame": render_board_p2(board_size, board_size, start, head),
+            #         "line": ""
+            #     }
+            # )
             current_node = head.child
             while current_node:
-                print("---")
                 parent_distance = current_node.distance_to(current_node.parent)
-                print("Parent distance", parent_distance)
                 if parent_distance > 1:
                     parent_direction = current_node.direction_to(current_node.parent)
-                    print(parent_direction)
                     current_node.move(parent_direction)
                 if not current_node.child:
-                    print("found node without child")
-                    print(current_node.visited_tiles)
                     break
                 current_node = current_node.child
+            # frames.append(
+            #     {
+            #         "frame": render_board_p2(board_size, board_size, start, head),
+            #         "line": ""
+            #     }
+            # )
 
+    # display_frames(frames)
     print(len(tail.visited_tiles))
-    print("Done")
 
-
+    
 def main():
     p2()
 
