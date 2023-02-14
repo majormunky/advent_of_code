@@ -13,26 +13,45 @@ function lines_from(file)
   return lines
 end
 
-function day01_part01()
+
+function collect_values_from_elves()
     local file = "data/day01_input.txt"
     local lines = lines_from(file)
     local current_count = 0
-    local largest_count = 0
+    local all_elves = {}
 
     for line_num, line in pairs(lines)
     do
         if line == "" then                                      -- If our line is empty, it means we are done checking that elf
-            if current_count > largest_count then               -- Check to see if this elf has more than our current largest
-                largest_count = current_count                   -- If so, set this new elf as the current largest
-            end
+            all_elves[#all_elves + 1] = current_count
             current_count = 0                                   -- Reset count for the next elf
         else 
             current_count = current_count + tonumber(line)      -- Keep counting how many the current elf has
         end
     end
 
-    -- Answer: 69795
-    print(largest_count)
+    return all_elves
 end
 
-day01_part01()
+
+
+function day01_part01()
+    local elf_values = collect_values_from_elves()
+
+    table.sort(elf_values)
+
+    -- Answer: 69795
+    print(elf_values[#elf_values])
+end
+
+
+function day01_part02()
+    local elf_values = collect_values_from_elves()
+    table.sort(elf_values)
+
+    local answer = elf_values[#elf_values] + elf_values[#elf_values - 1] + elf_values[#elf_values - 2]
+    -- Answer: 208437
+    print(answer)
+end
+
+day01_part02()
