@@ -32,16 +32,18 @@ def part2():
     total = 0
     for line in lines:
         this_total = calculate_fuel_usage(int(line))
-        while (this_total > 0):
+        while this_total > 0:
             # each time we loop, the amount of fuel will decrease
             # until we hit zero, once that happens we're done
             total += this_total
             this_total = calculate_fuel_usage(this_total)
     return total
 
+
 def main():
     print("Answer for Part 1: {}".format(part1()))
     print("Answer for Part 2: {}".format(part2()))
+
 
 if __name__ == "__main__":
     main()
