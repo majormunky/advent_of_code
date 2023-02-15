@@ -2,6 +2,7 @@ import os
 import sys
 import common
 from common import Point, Line, Path
+
 # import pygame
 # from Engine.Engine import Engine
 # from Engine.Config import set_screensize, get_screenrect
@@ -48,10 +49,7 @@ class PathPygameTest:
 
     def render_paths(self):
         self.image = pygame.Surface(
-            (
-                self.screenrect.width, 
-                self.screenrect.height
-            ),
+            (self.screenrect.width, self.screenrect.height),
             pygame.SRCALPHA,
         )
         self.image.fill((20, 20, 20))
@@ -60,22 +58,21 @@ class PathPygameTest:
 
         for line in self.path_list[0].lines:
             pygame.draw.line(
-                self.image, 
-                (255, 0, 255), 
-                (line.start.x + hx, line.start.y + hy), 
-                (line.end.x + hx, line.end.y + hy), 
-                1
+                self.image,
+                (255, 0, 255),
+                (line.start.x + hx, line.start.y + hy),
+                (line.end.x + hx, line.end.y + hy),
+                1,
             )
 
         for line in self.path_list[1].lines:
             pygame.draw.line(
-                self.image, 
-                (255, 255, 0), 
-                (line.start.x + hx, line.start.y + hy), 
-                (line.end.x + hx, line.end.y + hy), 
-                1
-            )        
-        
+                self.image,
+                (255, 255, 0),
+                (line.start.x + hx, line.start.y + hy),
+                (line.end.x + hx, line.end.y + hy),
+                1,
+            )
 
     def draw(self, canvas):
         canvas.blit(self.image, (50, 50))
@@ -96,8 +93,12 @@ class PathManager(object):
         fp = os.path.join("data", filename)
         stuff = common.get_file_lines(fp)
         wires = {
-            0: [[0, 0],],
-            1: [[0, 0],]
+            0: [
+                [0, 0],
+            ],
+            1: [
+                [0, 0],
+            ],
         }
         paths = []
 
@@ -109,7 +110,7 @@ class PathManager(object):
                 path.add_line(a_line)
                 wires[index].append(end_pos)
             paths.append(path)
-        
+
         self.path1 = paths[0]
         self.path2 = paths[1]
         self.generate_collisions()
@@ -119,33 +120,15 @@ class PathManager(object):
         direction = parts.pop(0)
         amount = int("".join(parts))
         if direction == "U":
-            end_pos = [
-                start_pos[0],
-                start_pos[1] - (amount)
-            ]
+            end_pos = [start_pos[0], start_pos[1] - (amount)]
         elif direction == "D":
-            end_pos = [
-                start_pos[0],
-                start_pos[1] + amount
-            ]            
+            end_pos = [start_pos[0], start_pos[1] + amount]
         elif direction == "L":
-            end_pos = [
-                start_pos[0] - amount,
-                start_pos[1]
-            ]
+            end_pos = [start_pos[0] - amount, start_pos[1]]
         elif direction == "R":
-            end_pos = [
-                start_pos[0] + amount,
-                start_pos[1]
-            ]
-            
-        line = Line(
-            start_pos[0], 
-            start_pos[1], 
-            end_pos[0], 
-            end_pos[1],
-            command
-        )
+            end_pos = [start_pos[0] + amount, start_pos[1]]
+
+        line = Line(start_pos[0], start_pos[1], end_pos[0], end_pos[1], command)
         return (line, end_pos)
 
     def generate_collisions(self):
@@ -168,9 +151,9 @@ class PathManager(object):
         distances = {}
         for c in self.collisions:
             distances[c] = self.manhattan(c, [0, 0])
-        
+
         min_distance = sys.maxsize
-        
+
         for k, v in distances.items():
             if v < min_distance:
                 min_distance = v
@@ -208,9 +191,8 @@ class PathManager(object):
                     distance += line.get_distance()
 
 
-
 def part1():
-    path_manager = PathManager("day3_data.txt")
+    path_manager = PathManager("day3-data.txt")
     min_distance = path_manager.get_min_distance()
     return min_distance
 
@@ -227,8 +209,7 @@ def part2():
     2: check the other path for that collision and get the distance to it
     3: find the combination that leads to the shortest path
     """
-    pm = PathManager("day3_test_data.txt")
-    
+    # pm = PathManager("day3_test_data.txt")
 
     return "No idea?!"
 
@@ -238,5 +219,5 @@ def main():
     print("Answer for part 2: {}".format(part2()))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

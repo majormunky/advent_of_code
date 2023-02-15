@@ -56,7 +56,7 @@ def arrange_operations_old(data):
                 temp_list = []
             else:
                 temp_list.append(code)
-                
+
     # check to see if our last list was less than a full one
     if temp_list:
         # it was, add it
@@ -99,6 +99,7 @@ def test(noun, verb, result):
         return True
     return False
 
+
 def calculate_result(noun, verb):
     line_parts = load_data(noun, verb)
     ops = arrange_operations(line_parts)
@@ -106,9 +107,11 @@ def calculate_result(noun, verb):
         run(op, line_parts)
     return line_parts[0]
 
+
 def part1():
     result = calculate_result(12, 2)
     return result
+
 
 def part2():
     answer = 19690720
@@ -122,6 +125,7 @@ def part2():
 def main():
     print("Answer for part 1: {}".format(part1()))
     print("Answer for part 2: {}".format(part2()))
+
 
 if __name__ == "__main__":
     main()
