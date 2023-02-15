@@ -10,7 +10,7 @@ def get_filename():
     return filename
 
 
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
+data = common.get_file_contents("data/{}-input.txt".format(get_filename()))
 
 
 def part1():
