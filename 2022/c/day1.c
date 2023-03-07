@@ -16,18 +16,18 @@ int part1(const char *filename) {
     
     while ((line = strsep(&result, "\n"))) {      
       if (strlen(line) == 0) {
-	// We are done counting this gnome's calories
-	// if our current gnomes size is bigger than the largest
-	if (current_gnome > largest_gnome) {
-	  // set the largest gnome to the current gnome size
-	  largest_gnome = current_gnome;
-	}
+		// We are done counting this gnome's calories
+		// if our current gnomes size is bigger than the largest
+		if (current_gnome > largest_gnome) {
+		  // set the largest gnome to the current gnome size
+		  largest_gnome = current_gnome;
+		}
 
-	// reset the current gnome size
-	current_gnome = 0;
+		// reset the current gnome size
+		current_gnome = 0;
       } else {
-	int line_as_int = atoi(line);
-	current_gnome += line_as_int;
+		int line_as_int = atoi(line);
+		current_gnome += line_as_int;
       }
     }
 
