@@ -47,8 +47,46 @@ int part1(const char *filename) {
 
 
 int part2(const char *filename) {
+  char *file_data = read_from_file(filename);
+
+  char *line;
+
+  int array_size = 1000;
+  int biggest_gnomes[array_size];
+  int b_index = 0;
+  int current_gnome = 0;
+
+  for (int i = 0; i < array_size; i++) {
+	biggest_gnomes[i] = 0;
+  }
+
+  while ((line = strsep(&file_data, "\n"))) {
+	if (strlen(line) == 0) {
+	  biggest_gnomes[b_index] = current_gnome;
+	  b_index++;
+
+	  if (b_index > array_size) {
+		fputs("Error, array too small to hold all values", stderr);
+		return -1;
+	  }
+
+	  current_gnome = 0;
+	} else {
+	  int line_as_int = atoi(line);
+	  current_gnome += line_as_int;
+	}
+  }
+
+  free(file_data);
+
   int result = 0;
 
+  qsort(biggest_gnomes, array_size, sizeof(int), compare);
+
+  result += biggest_gnomes[array_size - 1];
+  result += biggest_gnomes[array_size - 2];
+  result += biggest_gnomes[array_size - 3];
+  
   return result;
 }
 
