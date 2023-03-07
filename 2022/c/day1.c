@@ -4,6 +4,15 @@
 #include "common.h"
 
 
+int compare( const void* a, const void* b) {
+   int int_a = * ( (int*) a );
+   int int_b = * ( (int*) b );
+
+   // an easy expression for comparing
+   return (int_a > int_b) - (int_a < int_b);
+}
+
+
 int part1(const char *filename) {
   char *result = read_from_file(filename);
   if (!result) {
