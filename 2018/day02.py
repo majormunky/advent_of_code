@@ -15,7 +15,7 @@ def check_counts(data):
 
 
 def part1():
-    lines = common.get_file_contents("data/day2-input.txt")
+    lines = common.get_file_contents("data/day02-input.txt")
     two = 0
     three = 0
 
@@ -46,7 +46,7 @@ def diff_lists(item1, item2):
 
 
 def part2():
-    lines = common.get_file_contents("data/day2-input.txt")
+    lines = common.get_file_contents("data/day02-input.txt")
     # lines = ["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"]
 
     answers = []
