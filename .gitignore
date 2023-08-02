@@ -20,3 +20,5 @@ Cargo.lock
 # don't upload compiled c files
 *.bin
 
+# nim
+bin/
