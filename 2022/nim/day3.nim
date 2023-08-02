@@ -60,14 +60,22 @@ proc part2(lines: seq[string]): int =
             temp_group = @[]
     
     for group in grouped:
-        echo group
+        let first = toSeq(group[0])
+        let second = toSeq(group[1])
+        let third = toSeq(group[2])
 
-    result = 0
+        var first_set = toHashSet(first)
+        var second_set = toHashSet(second)
+        var third_set = toHashSet(third)
 
+        let common = first_set * second_set * third_set
+        let remaining = toSeq(common)[0]
+        let priority = getCodeForChar(remaining)
+        result += priority
 
 
 var part1_result = part1(lines)
 echo fmt"Part 1: {part1_result}"
 
-var part2_result = part2(test_lines)
+var part2_result = part2(lines)
 echo fmt"Part 2: {part2_result}"
