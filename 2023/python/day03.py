@@ -175,5 +175,129 @@ def output_html(data):
         f.write(output)
 
 
+def get_gear_positions(data):
+    result = []
+
+    width = len(data[0])
+    height = len(data)
+
+    for row in range(height):
+        for col in range(width):
+            if data[row][col] == "*":
+                result.append([row, col])
+    return result
+
+
+def check_for_valid_gear(gear, data):
+    # build list of places to check for gear ratios
+    # this will be the 8 surrounding spots of the gear
+    cells_to_check = [
+        [gear[0] - 1, gear[1] - 1],
+        [gear[0] - 1, gear[1]],
+        [gear[0] - 1, gear[1] + 1],
+        [gear[0], gear[1] - 1],
+        [gear[0], gear[1] + 1],
+        [gear[0] + 1, gear[1] - 1],
+        [gear[0] + 1, gear[1]],
+        [gear[0] + 1, gear[1] + 1],
+    ]
+
+    nums_found = []
+
+    for cell in cells_to_check:
+        try:
+            if data[cell[0]][cell[1]] in string.digits:
+                nums_found.append(cell)
+        except IndexError:
+            pass
+
+    return nums_found
+
+
+def get_start_position_of_gear_ratio(row, col, data):
+    # given a row and column of one of the characters in our gear ratio
+    # find the position of the first character for it
+    starting_pos = col - 1
+
+    while True:
+        try:
+            if data[row][starting_pos] in string.digits:
+                starting_pos -= 1
+            else:
+                starting_pos += 1
+                break
+        except IndexError:
+            break
+
+    return [row, starting_pos]
+
+
+def get_gear_ratio(row, col, data):
+    # given a row and column, return the full gear ratio number
+    result = ""
+
+    # we aren't sure how long this gear ratio will be
+    # so we use a while loop
+    while True:
+        # we may try a position out of the 'board', if so
+        # it means we reached the end
+        try:
+            if data[row][col] in string.digits:
+                result += data[row][col]
+                col += 1
+            else:
+                break
+        except IndexError:
+            break
+    return result
+
+
+def get_gear_ratios(gear_list, data):
+    # use a set in case we have two gear positions within the same number
+    result = set()
+
+    # go over each gear ratio position
+    for gear in gear_list:
+        # find the starting character position for this ratio
+        start_pos_for_gear = get_start_position_of_gear_ratio(gear[0], gear[1], data)
+
+        # using the starting position, return the full gear ratio number
+        gear_ratio = get_gear_ratio(start_pos_for_gear[0], start_pos_for_gear[1], data)
+
+        # add it to our set
+        result.add(int(gear_ratio))
+
+    return list(result)
+
+
+def part2(debug=False):
+    if debug:
+        data = test_data
+    else:
+        data = common.get_file_contents("data/day03_input.txt")
+    answer = 0
+
+    # first, get a list of row / col indexes that contain a *
+    gears = get_gear_positions(data)
+
+    for gear in gears:
+        # next, get a list of row / col index that suround the *
+        gear_ratio_list = check_for_valid_gear(gear, data)
+
+        # using those row / col indexes, return the full number
+        # our current position may be any character within the
+        # gear ratio, so we need to be sure we get the full
+        # number back
+        gear_ratios = get_gear_ratios(gear_ratio_list, data)
+
+        # our only valid gear ratios will have two numbers
+        if len(gear_ratios) == 2:
+            # if so, multiply them together to get our answer
+            answer += gear_ratios[0] * gear_ratios[1]
+
+    print(answer)
+
+
 if __name__ == "__main__":
     part1()  # 530849
+    part2()  # 84900879
