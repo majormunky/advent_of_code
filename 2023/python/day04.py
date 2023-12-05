@@ -69,5 +69,49 @@ def part1(debug=True):
 	print(answer)
 
 
+def get_card_number(card):
+	parts = card["card"].split(" ")
+	return int(parts[-1])
+
+
+def get_winning_cards(card_num, amount):
+	result = []
+
+	for i in range(amount):
+		result.append(card_num + i + 1)
+
+	return result
+
+
+def part2(debug=True):
+	if debug:
+		data = test_data
+	else:
+		data = common.get_file_contents("data/day04_input.txt")
+
+	win_data = {}
+	cards = []
+
+	for line in data:
+		card = parse_card(line)
+		card_number = get_card_number(card)
+		matched = get_winning_numbers(card)
+		winning_cards = get_winning_cards(card_number, matched)
+		win_data[card_number] = winning_cards
+
+		cards.extend(winning_cards)
+
+		existing_cards = cards.count(card_number)
+
+		for i in range(existing_cards):
+			cards.extend(win_data[card_number])
+
+		cards.append(card_number)
+
+	# print(sorted(cards))
+	print(len(cards))
+
+
 if __name__ == '__main__':
 	part1(False) # 25010
+	part2(False)
