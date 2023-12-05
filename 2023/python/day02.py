@@ -26,6 +26,10 @@ def part1_boxcheck(box_dict):
 
 
 def get_box_data(lines):
+    """
+    This returns a dictionary with the key being the game id
+    and the value being a list of strings representing the box sets
+    """
     result = collections.defaultdict(list)
 
     for line in lines:
@@ -38,6 +42,7 @@ def get_box_data(lines):
 
         # go over each box group, this is what the elf is showing us
         for box_set in box_sets:
+            # build up our list of box sets
             box_list = []
             for box_item in box_set.strip().split(","):
                 box_list.append(box_item.strip())
@@ -69,10 +74,24 @@ def part1():
 
 
 def part2():
-    lines = get_box_data(test_lines)
-    print(lines)
+    lines = common.get_file_contents("data/day02_input.txt")
+    box_data = get_box_data(lines)
+    answer = 0
+
+    for box_id, box_list in box_data.items():
+        # data to hold our max amounts of box colors we've seen
+        max_boxes = {"red": 0, "green": 0, "blue": 0}
+        for box_set in box_list:
+            for box in box_set:
+                box_amount, box_color = box.split(" ")
+                # check to see if we need to increase the max boxes we need
+                if max_boxes[box_color] < int(box_amount):
+                    max_boxes[box_color] = int(box_amount)
+        box_answer = max_boxes["red"] * max_boxes["green"] * max_boxes["blue"]
+        answer += box_answer
+    print(answer)
 
 
 if __name__ == "__main__":
     part1()  # 2006
-    # part2()
+    part2()  # 84911
