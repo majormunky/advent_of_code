@@ -75,5 +75,20 @@ def part1(debug=True):
     print(answer)
 
 
+def part2(debug=True):
+    if debug:
+        lines = [71530, 940200]
+    else:
+        lines = [46857582, 208141212571410]
+
+    time_data = []
+
+    race_time, distance = lines
+    result = process_race(race_time, distance)
+
+    print(len(result))
+
+
 if __name__ == "__main__":
     part1(False)
+    part2(False)
