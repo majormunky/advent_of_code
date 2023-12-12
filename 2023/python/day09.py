@@ -51,6 +51,18 @@ def test_differences(values):
     return result
 
 
+def calculate_part2(lines):
+    lines[-1].insert(0, 0)
+
+    data_length = len(lines)
+
+    for line_index in reversed(range(data_length - 1)):
+        new_value = lines[line_index][0] - lines[line_index + 1][0]
+        lines[line_index].insert(0, new_value)
+
+    return lines
+
+
 def calculate(lines):
     lines[-1].append(0)
 
@@ -84,11 +96,7 @@ def process_line(line):
 
         index += 1
 
-    # print_data(data)
-    data = calculate(data)
-    # print_data(data)
-
-    return data[0][-1]
+    return data
 
 
 def part1(debug=True):
@@ -97,7 +105,9 @@ def part1(debug=True):
     result = 0
 
     for line in lines:
-        result += process_line(line)
+        data = process_line(line)
+        data = calculate(data)
+        result += data[0][-1]
 
     print(result)
 
@@ -105,7 +115,16 @@ def part1(debug=True):
 def part2(debug=True):
     lines = get_data(debug)
 
+    result = 0
+
+    for line in lines:
+        data = process_line(line)
+        data = calculate_part2(data)
+        result += data[0][0]
+
+    print(result)
+
 
 if __name__ == "__main__":
-    part1(False)
-    part2()
+    part1(False)  # 1842168671
+    part2(False)
