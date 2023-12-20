@@ -2,6 +2,8 @@
 *.pyc
 .DS_Store
 .import/
+.pyv/
+
 
 # rust stuff
 debug/
