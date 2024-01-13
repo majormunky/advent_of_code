@@ -252,8 +252,35 @@ def output_path(steps, lines):
         print("".join(row))
 
 
+def get_all_lowest_spots(lines):
+    result = []
+
+    for row_index, row in enumerate(lines):
+        for col_index, col in enumerate(row):
+            if col == "a":
+                result.append((col_index, row_index))
+
+    return result
+
+
 def part2(debug=True):
     lines = get_data(debug, test_lines)
+    start_pos = get_pos(lines, "S")
+    end_pos = get_pos(lines, "E")
+
+    result = 1_000_000_000
+
+    start_positions = get_all_lowest_spots(lines)
+    start_positions.append(start_pos)
+
+    for test_position in start_positions:
+        node_list = find_a_star_path(test_position, end_pos, lines)
+        if node_list:
+            path_score = len(node_list) - 1
+            if path_score < result:
+                result = path_score
+
+    print(result)
 
 
 def part1(debug=True):
@@ -268,4 +295,4 @@ def part1(debug=True):
 
 if __name__ == "__main__":
     part1(False) #380
-    part2()
+    part2(False) #775
