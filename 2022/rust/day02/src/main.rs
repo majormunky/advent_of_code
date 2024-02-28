@@ -26,7 +26,7 @@ fn translate_letter_to_hand(letter: &str) -> Hand {
         "A" | "X" => Hand::Rock,
         "B" | "Y" => Hand::Paper,
         "C" | "Z" => Hand::Scissors,
-        _ => panic!()
+        _ => panic!("Unknown Hand!")
     }
 }
 
@@ -38,36 +38,29 @@ fn score_game(first: Hand, second: Hand) -> i32 {
     // score 0 lost, 3 draw, 6 win
     let mut result: i32 = 0;
 
-    if first == Hand::Rock {
-        if second == Hand::Rock {
-            result += 3;
-            result += 1;
-        } else if second == Hand::Paper {
-            result += 6;
-            result += 2;
-        } else if second == Hand::Scissors {
-            result += 3;
-        }
-    } else if first == Hand::Paper {
-        if second == Hand::Paper {
-            result += 3;
-            result += 2;
-        } else if second == Hand::Scissors {
-            result += 6;
-            result += 3;
-        } else if second == Hand::Rock {
-            result += 1;
-        }
-    } else if first == Hand::Scissors {
-        if second == Hand::Rock {
-            result += 6;
-            result += 1;
-        } else if second == Hand::Scissors {
-            result += 3;
-            result += 3;
-        } else if second == Hand::Paper {
-            result += 2;
-        }
+    match first {
+        Hand::Rock => {
+            match second {
+                Hand::Rock => result += 4,
+                Hand::Paper => result += 8,
+                Hand::Scissors => result += 3,
+            }
+        },
+        Hand::Paper => {
+            match second {
+                Hand::Rock => result += 1,
+                Hand::Paper => result += 5,
+                Hand::Scissors => result += 9,
+            }
+            
+        },
+        Hand::Scissors => {
+            match second {
+                Hand::Rock => result += 7,
+                Hand::Paper => result += 2,
+                Hand::Scissors => result += 6,
+            }
+        },
     }
     
     result
