@@ -19,6 +19,8 @@ Cargo.lock
 # don't upload input files
 **/data/*.txt
 
+**/rust/**/*.txt
+
 # don't upload compiled c files
 *.bin
 
