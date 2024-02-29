@@ -3,6 +3,16 @@ from common import get_file_contents
 
 # import time
 
+test_lines = [
+    "start-A",
+    "start-b",
+    "A-c",
+    "A-b",
+    "b-d",
+    "A-end",
+    "b-end"
+]
+
 
 def build_graph(lines):
     edges = collections.defaultdict(set)
@@ -20,14 +30,21 @@ def p1():
     todo = [("start",)]
     all_paths = set()
 
+    # keep going while we have items in our todo list
     while todo:
+        # remove our next path to check
         path = todo.pop()
-        print(path)
+
+        # if the last item in our path is the end, we are done with this path
         if path[-1] == "end":
             all_paths.add(path)
             continue
+
+        # otherwise, check each path from the last node
         for edge in edges[path[-1]]:
+            # if the next path isn't in our list or the edge isn't in our current path
             if not edge.islower() or edge not in path:
+                # append the new edge to the path to a tuple and add it to our todo
                 todo.append((*path, edge))
 
     print(len(all_paths))
