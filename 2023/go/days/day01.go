@@ -10,7 +10,7 @@ import (
 	"joshbright.dev/aoc/utils"
 )
 
-func process_line_part1(line string) (int, error) {
+func process_line_part1(line string) int {
 	var numbers []byte
 	for index, char := range line {
 		if unicode.IsDigit(char) {
@@ -22,15 +22,14 @@ func process_line_part1(line string) (int, error) {
 	i, err := strconv.Atoi(result)
 
 	if err != nil {
-		return 0, err
+		return 0
 	}
 
-	return i, nil
+	return i
 }
 
-func process_line_part2(line string) (int, error) {
+func process_line_part2(line string) int {
 	var numbers []byte
-
 	// Create mapping between number words and values
 	numbersAsStrings := map[string]byte{
 		"one":   '1',
@@ -67,14 +66,14 @@ func process_line_part2(line string) (int, error) {
 	i, err := strconv.Atoi(result)
 
 	if err != nil {
-		return 0, err
+		return 0
 	}
 
-	return i, nil
+	return i
 }
 
-func Day01Part1() int {
-	lines, err := utils.GetFileLines("data/day01_input.txt")
+func ProcessDay(filepath string, transform func(string) int) int {
+	lines, err := utils.GetFileLines(filepath)
 	answer := 0
 
 	if err != nil {
@@ -82,32 +81,19 @@ func Day01Part1() int {
 	}
 
 	for _, line := range lines {
-		result, err := process_line_part1(line)
-		if err != nil {
-			log.Fatal(err)
-		}
-
+		result := transform(line)
 		answer += result
 	}
 
 	return answer
 }
 
+func Day01Part1() int {
+	answer := ProcessDay("data/day01_input.txt", process_line_part1)
+	return answer
+}
+
 func Day01Part2() int {
-	lines, err := utils.GetFileLines("data/day01_input.txt")
-	answer := 0
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, line := range lines {
-		result, err := process_line_part2(line)
-		if err != nil {
-			log.Fatal(err)
-		}
-		answer += result
-	}
-
+	answer := ProcessDay("data/day01_input.txt", process_line_part2)
 	return answer
 }
