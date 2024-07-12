@@ -72,7 +72,7 @@ func process_line_part2(line string) int {
 	return i
 }
 
-func ProcessDay(filepath string, transform func(string) int) int {
+func processDay(filepath string, transform func(string) int) int {
 	lines, err := utils.GetFileLines(filepath)
 	answer := 0
 
@@ -89,11 +89,11 @@ func ProcessDay(filepath string, transform func(string) int) int {
 }
 
 func Day01Part1() int {
-	answer := ProcessDay("data/day01_input.txt", process_line_part1)
+	answer := processDay("data/day01_input.txt", process_line_part1)
 	return answer
 }
 
 func Day01Part2() int {
-	answer := ProcessDay("data/day01_input.txt", process_line_part2)
+	answer := processDay("data/day01_input.txt", process_line_part2)
 	return answer
 }
