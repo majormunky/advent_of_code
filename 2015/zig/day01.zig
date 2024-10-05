@@ -1,14 +1,5 @@
 const std = @import("std");
-
-fn get_file_contents(allocator: std.mem.Allocator, path: []const u8) ![]u8 {
-    // Open the file for reading
-    const file = try std.fs.cwd().openFile(path, .{});
-
-    // Read the contents of the file into a buffer
-    const contents = try file.readToEndAlloc(allocator, 20000);
-    defer file.close();
-    return contents;
-}
+const utils = @import("utils.zig");
 
 pub fn main() !void {
     const answer_part01 = try part01();
@@ -19,7 +10,7 @@ pub fn main() !void {
 
 fn part01() !i64 {
     var allocator = std.heap.page_allocator;
-    const contents = try get_file_contents(allocator, "../data/day01_input.txt");
+    const contents = try utils.get_file_contents(allocator, "../data/day01_input.txt");
     defer allocator.free(contents);
 
     var floor: i64 = 0;
@@ -37,7 +28,7 @@ fn part01() !i64 {
 
 fn part02() !usize {
     var allocator = std.heap.page_allocator;
-    const contents = try get_file_contents(allocator, "../data/day01_input.txt");
+    const contents = try utils.get_file_contents(allocator, "../data/day01_input.txt");
     defer allocator.free(contents);
 
     var floor: i64 = 0;
