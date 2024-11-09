@@ -11,8 +11,65 @@ def get_filename():
 data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
+def get_text_between_delimiters(val, delimiters):
+    result = []
+
+    # aaa[bbb]aaa[ccc]ddd
+    od, cd = delimiters
+    parts = val.split(od)
+
+    for part in parts[1:]:
+        sub_part = part.split(cd)
+        result.append(sub_part[0])
+
+    return result
+
+
+def convert_aba_to_bab(val):
+    return f"{val[1]}{val[0]}{val[1]}"
+
+
+def check_for_bab(val, aba_strings):
+    # print("Check for bab", val, aba_strings)
+    if len(aba_strings) == 0:
+        return False
+
+    inner_strings = get_text_between_delimiters(val, ["[", "]"])
+
+    for i in inner_strings:
+        for aba_string in aba_strings:
+            bab_string = convert_aba_to_bab(aba_string)
+            # print(f"Converting aba ({aba_string}) string to bab format ({bab_string})")
+            # print(f"Does {bab_string} show up in {i}")
+            if bab_string in i:
+                # print("True")
+                return True
+            # else:
+            #     print("False")
+    return False
+
+
+def check_for_aba(val):
+    val_len = len(val)
+    inside_brackets = False
+    aba_strings = []
+
+    for i in range(val_len - 2):
+        cur = val[i]
+
+        if cur == "[":
+            inside_brackets = True
+        elif cur == "]":
+            inside_brackets = False
+
+        check_char = val[i + 2]
+
+        if cur == check_char:
+            if not inside_brackets:
+                aba_strings.append(f"{cur}{val[i + 1]}{check_char}")
+    return check_for_bab(val, aba_strings)
+
 def check_for_abba(val):
-    current_index = 0
     val_len = len(val)
     inside_brackets = False
     has_abba_in_brackets = False
@@ -67,15 +124,18 @@ def test_ip_values():
 def part1():
     result = 0
     for line in data:
-        line_res = check_for_abba(line)
-        if line_res:
+        if check_for_abba(line):
             result += 1
 
     return result
 
 
 def part2():
-    return "not complete"
+    result = 0
+    for line in data:
+        if check_for_aba(line):
+            result += 1
+    return result
 
 
 def main():
@@ -88,4 +148,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # test_ip_values()
