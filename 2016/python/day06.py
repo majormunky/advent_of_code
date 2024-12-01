@@ -1,18 +1,21 @@
-import sys
+import os
 import common
 import collections
 
 
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
+# def get_filename():
+#     filename = sys.argv[0]
+#     filename = filename.split("/")[-1]
+#     filename = filename.split(".")[0]
+#     return filename
 
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
+# data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    data = common.get_file_contents(real_file)
+
     # setup list for each slot
     results = [
         [], [], [], [], [], [], [], []
@@ -37,6 +40,9 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    data = common.get_file_contents(real_file)
+
     # setup list for each slot
     results = [
         [], [], [], [], [], [], [], []

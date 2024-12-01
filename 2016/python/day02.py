@@ -1,7 +1,5 @@
+import os
 import common
-
-
-data = common.get_file_contents("data/day2_input.txt")
 
 
 class Grid1:
@@ -85,6 +83,9 @@ class Grid2:
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
     pos = [1, 1]
     grid = Grid1(3, 3, pos)
     answer = ""
@@ -104,6 +105,9 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
     pos = [0, 3]
     grid = Grid2(5, 5, pos)
     answer = ""

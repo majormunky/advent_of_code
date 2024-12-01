@@ -1,13 +1,16 @@
+import os
 import common
 import hashlib
 
-data = "wtnhxymk"
 
 def get_md5(val):
     result = hashlib.md5(val.encode())
     return result.hexdigest()
 
 def part1():
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
+
     # counter to be used in our test string
     i = 0
 
@@ -39,6 +42,9 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
+
     i = 0
     answer = [None, None, None, None, None, None, None, None]
     done = False
@@ -57,7 +63,7 @@ def part2():
                     done = True
             except (ValueError, IndexError):
                 continue
-        
+
         if i > 5_000_000_000:
             print(answer)
             print("Stopping at 5 billion")

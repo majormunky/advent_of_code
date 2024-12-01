@@ -1,7 +1,5 @@
+import os
 import common
-
-
-data = common.get_file_contents("data/day3_input.txt")
 
 
 def get_parts(data):
@@ -29,6 +27,9 @@ def is_real_triangle(data, as_tuple=False):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    data = common.get_file_contents(real_file)
+
     real_triangles = 0
     for line in data:
         if is_real_triangle(line):
@@ -54,17 +55,11 @@ def check_columns(data):
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    data = common.get_file_contents(real_file)
+
     to_check = []
     answer = 0
-
-    test_data = [
-        "101 301 501",
-        "102 302 502",
-        "103 303 503",
-        "201 401 601",
-        "202 402 602",
-        "203 403 603",
-    ]
 
     for line in data:
         to_check.append(line)

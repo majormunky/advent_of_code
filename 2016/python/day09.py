@@ -1,13 +1,6 @@
 import common
-import sys
+import os
 
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 def parse_instruction(val):
     parts = val.split("x")
@@ -20,8 +13,6 @@ def expand(line, instruction, start_index, end_index):
 
     for i in range(parsed_instruction["amount"]):
         result += characters_to_repeat
-
-    parse_pos = len(result)
 
     # remove the character(s) that we are expanding
     final_end_index = end_index + parsed_instruction["char_count"]
@@ -122,18 +113,21 @@ test_data = {
 }
 
 def part1():
-    # result = parse("", "(3x3)XYZ")
-    # print(result)
-    # print("XYZXYZXYZ")
+    real_file = os.path.join("..", "data", "day09_input.txt")
+    data = common.get_file_contents(real_file)
+
     answer = 0
     for input_str in data:
         result = parse("", input_str)
         result_len = len(result)
         answer += result_len
 
-    print("Answer:", answer)
+    return answer
 
 def part2():
+    # real_file = os.path.join("..", "data", "day09_input.txt")
+    # data = common.get_file_contents(real_file)
+
     result = parse_p2("(27x12)(20x12)(13x14)(7x10)(1x12)A")
     print(result)
     # print("XABCABCABCABCABCABCY")
@@ -144,11 +138,11 @@ def part2():
     #     answer += result_len
 
 def main():
-    # p1 = part1()
-    p2 = part2()
+    p1 = part1()
+    # p2 = part2()
 
-    # print("Part 1", p1)
-    print("Part 2", p2)
+    print("Part 1", p1)
+    # print("Part 2", p2)
 
 if __name__ == "__main__":
     main()

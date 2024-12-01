@@ -1,13 +1,7 @@
 import common
-import sys
+import os
 
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
 
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 test_data = [
     "rect 3x2",
     "rotate column x=1 by 1",
@@ -144,6 +138,9 @@ def build_instructions(data):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day08_input.txt")
+    data = common.get_file_contents(real_file)
+
     width = 50
     height = 6
     grid = Grid(width, height)

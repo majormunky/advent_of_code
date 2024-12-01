@@ -1,14 +1,5 @@
-import sys
+import os
 import common
-
-
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
 def get_text_between_delimiters(val, delimiters):
@@ -30,7 +21,6 @@ def convert_aba_to_bab(val):
 
 
 def check_for_bab(val, aba_strings):
-    # print("Check for bab", val, aba_strings)
     if len(aba_strings) == 0:
         return False
 
@@ -39,13 +29,8 @@ def check_for_bab(val, aba_strings):
     for i in inner_strings:
         for aba_string in aba_strings:
             bab_string = convert_aba_to_bab(aba_string)
-            # print(f"Converting aba ({aba_string}) string to bab format ({bab_string})")
-            # print(f"Does {bab_string} show up in {i}")
             if bab_string in i:
-                # print("True")
                 return True
-            # else:
-            #     print("False")
     return False
 
 
@@ -68,6 +53,7 @@ def check_for_aba(val):
             if not inside_brackets:
                 aba_strings.append(f"{cur}{val[i + 1]}{check_char}")
     return check_for_bab(val, aba_strings)
+
 
 def check_for_abba(val):
     val_len = len(val)
@@ -122,6 +108,9 @@ def test_ip_values():
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day07_input.txt")
+    data = common.get_file_contents(real_file)
+
     result = 0
     for line in data:
         if check_for_abba(line):
@@ -131,6 +120,9 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day07_input.txt")
+    data = common.get_file_contents(real_file)
+
     result = 0
     for line in data:
         if check_for_aba(line):

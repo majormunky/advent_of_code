@@ -1,9 +1,7 @@
+import os
 import string
 import common
 import collections
-
-
-data = common.get_file_contents("data/day4_input.txt")
 
 
 def get_most_common(data):
@@ -39,7 +37,7 @@ def get_checksum(line):
 
 
 def shift_letter_by(letter, amount):
-    # our amount is going to be a large number, 
+    # our amount is going to be a large number,
     # we just need the real offset
     real_amount = amount % 26
 
@@ -87,6 +85,9 @@ def check_password(line):
         return 0
 
 def part1():
+    real_file = os.path.join("..", "data", "day04_input.txt")
+    data = common.get_file_contents(real_file)
+
     answer = 0
     for line in data:
         answer += check_password(line)
@@ -94,6 +95,9 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day04_input.txt")
+    data = common.get_file_contents(real_file)
+
     real_ones = []
     for line in data:
         if check_password(line):
@@ -115,7 +119,7 @@ def part2():
         # loop over every character in the password
         for character in "".join(parts):
             result += shift_letter_by(character, sector_id)
-        
+
         # find our answer
         if "north" in result:
             return sector_id

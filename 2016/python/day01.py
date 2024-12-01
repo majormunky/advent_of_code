@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import common
+import os
 
 
 @dataclass
@@ -68,7 +69,8 @@ def find_first_intersection(point_list):
 
 def part1():
     # get input data
-    data = common.get_file_contents("data/day1_input.txt", single_line=True)
+    real_file = os.path.join("..", "data", "day01_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
 
     # set our intial position
     x = 0
@@ -107,7 +109,8 @@ def part1():
 
 
 def part2():
-    data = common.get_file_contents("data/day1_input.txt", single_line=True)
+    real_file = os.path.join("..", "data", "day01_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
     x = 0
     y = 0
     current_direction = "N"
