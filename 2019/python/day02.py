@@ -1,6 +1,6 @@
 import os
 import sys
-from common import DATA_DIR, get_file_lines
+import common
 
 
 def fix_data(string_list):
@@ -85,9 +85,10 @@ def run(operation, data):
 
 
 def load_data(noun, verb):
-    filepath = os.path.join(DATA_DIR, "day2-input.txt")
-    lines = get_file_lines(filepath)
-    line_parts = fix_data(lines)
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
+    line_parts = fix_data(data)
     line_parts[1] = noun
     line_parts[2] = verb
     return line_parts

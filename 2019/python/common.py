@@ -1,15 +1,13 @@
-import os
 import sys
 
 
-DATA_DIR = os.path.join(".", "data")
-
-
-def get_file_lines(filepath):
+def get_file_contents(filepath, single_line=False):
     lines = []
     with open(filepath, "r") as f:
         for line in f.readlines():
             lines.append(line.strip())
+    if single_line:
+        return lines[0]
     return lines
 
 
@@ -17,7 +15,7 @@ class Point(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
-    
+
     def __str__(self):
         return "<{}, {}>".format(self.x, self.y)
 
@@ -36,10 +34,10 @@ class Line(object):
             self.direction = "Horizontal"
             if self.start.x > self.end.x:
                 self.start, self.end = self.end, self.start
-        else:  
+        else:
             print("Detected diagonal line")
             self.direction = "BROKE"
-    
+
     def __str__(self):
         return "{} Line ({}) - Start: {}, {} | End: {}, {}".format(
             self.direction,
@@ -66,7 +64,7 @@ class Line(object):
                 return point[0] - self.start.x
             else:
                 return self.end.x - self.start.x
-    
+
     def collide_with(self, other):
         if self.direction == other.direction:
             return False
@@ -93,7 +91,7 @@ class Path(object):
         self.max_x = 0
         self.min_y = sys.maxsize
         self.max_y = 0
-    
+
     def add_line(self, line):
         self.lines.append(line)
         if line.start.x < self.min_x:
@@ -104,7 +102,7 @@ class Path(object):
             self.max_x = line.end.x
         if line.end.y > self.max_y:
             self.max_y = line.end.y
-    
+
     def print(self):
         for line in self.lines:
             print(line)
@@ -123,7 +121,7 @@ def create_line(item, start_pos):
         end_pos = [
             start_pos[0],
             start_pos[1] + amount
-        ]            
+        ]
     elif direction == "L":
         end_pos = [
             start_pos[0] - amount,
@@ -134,13 +132,12 @@ def create_line(item, start_pos):
             start_pos[0] + amount,
             start_pos[1]
         ]
-        
+
     line = Line(
-        start_pos[0], 
-        start_pos[1], 
-        end_pos[0], 
+        start_pos[0],
+        start_pos[1],
+        end_pos[0],
         end_pos[1],
         item
     )
     return (line, end_pos)
-

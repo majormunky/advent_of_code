@@ -1,5 +1,5 @@
 import os
-from common import DATA_DIR, get_file_lines
+import common
 
 
 def calculate_fuel_usage(amount):
@@ -14,10 +14,11 @@ def part1():
     we need to calculate how much fuel that will take
     and then return the total
     """
-    filepath = os.path.join(DATA_DIR, "day1-input.txt")
-    lines = get_file_lines(filepath)
+    real_file = os.path.join("..", "data", "day01_input.txt")
+    data = common.get_file_contents(real_file)
+
     total = 0
-    for line in lines:
+    for line in data:
         total += calculate_fuel_usage(int(line))
     return total
 
@@ -27,10 +28,11 @@ def part2():
     For part 2 we need to the same thing, but,
     we need to also calculate fuel for the fuel we are adding
     """
-    filepath = os.path.join(DATA_DIR, "day1-input.txt")
-    lines = get_file_lines(filepath)
+    real_file = os.path.join("..", "data", "day01_input.txt")
+    data = common.get_file_contents(real_file)
+
     total = 0
-    for line in lines:
+    for line in data:
         this_total = calculate_fuel_usage(int(line))
         while this_total > 0:
             # each time we loop, the amount of fuel will decrease

@@ -3,11 +3,6 @@ import sys
 import common
 from common import Point, Line, Path
 
-# import pygame
-# from Engine.Engine import Engine
-# from Engine.Config import set_screensize, get_screenrect
-# from Engine.DataManager import set_data, get_data
-
 
 class PathPygameTest:
     def __init__(self):
@@ -85,13 +80,11 @@ class PathPygameTest:
 
 
 class PathManager(object):
-    def __init__(self, filename):
+    def __init__(self, data):
         self.path1 = None
         self.path2 = None
         self.collisions = []
 
-        fp = os.path.join("data", filename)
-        stuff = common.get_file_lines(fp)
         wires = {
             0: [
                 [0, 0],
@@ -102,7 +95,7 @@ class PathManager(object):
         }
         paths = []
 
-        for index, line in enumerate(stuff):
+        for index, line in enumerate(data):
             path = Path()
             for item in line.split(","):
                 spos = wires[index][-1]
@@ -192,7 +185,10 @@ class PathManager(object):
 
 
 def part1():
-    path_manager = PathManager("day3-data.txt")
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    data = common.get_file_contents(real_file)
+
+    path_manager = PathManager(data)
     min_distance = path_manager.get_min_distance()
     return min_distance
 
