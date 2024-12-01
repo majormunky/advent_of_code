@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def parse_line(line):
@@ -57,18 +58,14 @@ def check_grid(lines, grid):
 
 
 def part1():
-    # lines = [
-    #     "#1 @ 1,3: 4x4",
-    #     "#2 @ 3,1: 4x4",
-    #     "#3 @ 5,5: 2x2"
-    # ]
-    lines = get_file_contents("data/day03-input.txt")
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    data = common.get_file_contents(real_file)
 
     grid = generate_grid(1000, 1000)
 
-    for i in lines:
-        data = parse_line(i)
-        grid = update_grid(data, grid)
+    for i in data:
+        parsed_line = parse_line(i)
+        grid = update_grid(parsed_line, grid)
 
     answer = count_cells(grid)
     return answer
@@ -80,13 +77,15 @@ def part2():
     #     "#2 @ 3,1: 4x4",
     #     "#3 @ 5,5: 2x2"
     # ]
-    lines = get_file_contents("data/day03-input.txt")
-    grid = generate_grid(1000, 1000)
-    for i in lines:
-        data = parse_line(i)
-        grid = update_grid(data, grid)
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    data = common.get_file_contents(real_file)
 
-    answer = check_grid(lines, grid)
+    grid = generate_grid(1000, 1000)
+    for i in data:
+        parsed_line = parse_line(i)
+        grid = update_grid(parsed_line, grid)
+
+    answer = check_grid(data, grid)
     return answer
 
 

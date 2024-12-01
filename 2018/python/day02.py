@@ -1,5 +1,7 @@
+import os
 import common
 import collections
+
 
 
 def check_counts(data):
@@ -15,11 +17,13 @@ def check_counts(data):
 
 
 def part1():
-    lines = common.get_file_contents("data/day02-input.txt")
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
     two = 0
     three = 0
 
-    for line in lines:
+    for line in data:
         parts = list(line)
         count = collections.defaultdict(int)
         for letter in parts:
@@ -46,14 +50,14 @@ def diff_lists(item1, item2):
 
 
 def part2():
-    lines = common.get_file_contents("data/day02-input.txt")
-    # lines = ["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"]
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
 
     answers = []
 
     # get the two lines that only differ by one letter
-    for item1 in lines:
-        for item2 in lines:
+    for item1 in data:
+        for item2 in data:
            if item1 == item2:
                continue
            if diff_lists(item1, item2) == 1:

@@ -39,7 +39,7 @@ func part1() -> Int {
     var current_direction = "N"
     var x_pos = 0
     var y_pos = 0
-    for item in puzzle_input.split(separator: ",") {
+    for item in test_puzzle_input.split(separator: ",") {
         var action = item.trimmingCharacters(in: .whitespaces)
         let direction = String(action.removeFirst())
         let steps = Int(action)!
