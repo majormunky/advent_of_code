@@ -1,14 +1,5 @@
-import sys
+import os
 import common
-
-
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
 def get_parts(line):
@@ -20,6 +11,9 @@ def get_parts(line):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
     answer = 0
     for line in data:
         line_parts = get_parts(line)
@@ -31,12 +25,15 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
     answer = 0
 
     for line in data:
         line_answer = 0
         line_parts = get_parts(line)
-        
+
         for i in line_parts:
             for j in line_parts:
                 if i == j:
@@ -57,4 +54,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

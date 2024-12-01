@@ -1,18 +1,10 @@
 import os
-import sys
 import common
 
 
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()), single_line=True)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def build_memory_bank():
+def build_memory_bank(data):
     result = []
     for item in data.split(" "):
         if len(item) > 0 and item != " ":
@@ -20,9 +12,9 @@ def build_memory_bank():
     return result
 
 
-def get_highest_bank(data):
+def get_highest_bank(data) -> int:
     highest = 0
-    highest_index = None
+    highest_index = 0
     for index, val in enumerate(data):
         if val > highest:
             highest = val
@@ -39,9 +31,12 @@ def write_data(lines):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
+
     # list of 16 ints
-    memory = build_memory_bank()
-    
+    memory = build_memory_bank(data)
+
     # our cache of old memory
     old_memory = []
 
@@ -67,9 +62,12 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
+
     # list of 16 ints
-    memory = build_memory_bank()
-    
+    memory = build_memory_bank(data)
+
     # our cache of old memory
     old_memory = []
 
@@ -108,4 +106,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

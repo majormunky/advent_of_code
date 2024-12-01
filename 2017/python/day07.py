@@ -1,14 +1,5 @@
-import sys
+import os
 import common
-
-
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
 test_data = [
@@ -34,14 +25,16 @@ def get_row_key(row):
 
 def get_row_children(row):
     # vfosh (261) -> aziwd, tubze, dhjrv
-    
+
     parts = row.split("->")
     parts = parts[1].split(", ")
     return [x.strip() for x in parts]
 
 
-
 def part1():
+    real_file = os.path.join("..", "data", "day07_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
+
     answer = None
     nodes = []
     keys = []
@@ -66,11 +59,14 @@ def part1():
         # our root node should not be in the child list
         if rk not in nodes:
             answer = rk
-            
+
     return answer
 
 
 def part2():
+    # real_file = os.path.join("..", "data", "day07_input.txt")
+    # data = common.get_file_contents(real_file, single_line=True)
+
     return "not complete"
 
 
@@ -84,4 +80,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

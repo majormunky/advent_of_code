@@ -1,16 +1,19 @@
-import sys
+import os
 import common
 
 
-data = "347991"
-
-
 def part1():
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    data = common.get_file_contents(real_file)
+
     print(len(data))
     return "not complete"
 
 
 def part2():
+    # real_file = os.path.join("..", "data", "day03_input.txt")
+    # data = common.get_file_contents(real_file)
+
     return "not complete"
 
 
@@ -24,4 +27,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
