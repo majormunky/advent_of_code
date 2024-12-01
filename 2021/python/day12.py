@@ -1,5 +1,7 @@
 import collections
-from common import get_file_contents
+import os
+import common
+
 
 # import time
 
@@ -24,7 +26,9 @@ def build_graph(lines):
 
 
 def p1():
-    lines = get_file_contents("data/day12_input.txt")
+    real_file = os.path.join("..", "data", "day12_input.txt")
+    lines = common.get_file_contents(real_file)
+
     edges = build_graph(lines)
 
     todo = [("start",)]
@@ -51,7 +55,9 @@ def p1():
 
 
 def p2():
-    lines = get_file_contents("data/day12_input.txt")
+    real_file = os.path.join("..", "data", "day12_input.txt")
+    lines = common.get_file_contents(real_file)
+
     edges = build_graph(lines)
 
     todo = [("start",)]
@@ -86,6 +92,7 @@ def p2():
 
 
 def main():
+    p1()
     p2()
 
 

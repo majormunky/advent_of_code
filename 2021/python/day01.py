@@ -1,8 +1,10 @@
-from common import get_file_contents
+import os
+import common
 
 
 def p1():
-    lines = get_file_contents("data/day1_input.txt")
+    real_file = os.path.join("..", "data", "day01_input.txt")
+    lines = common.get_file_contents(real_file)
     current = None
     inc_count = 0
 
@@ -24,7 +26,9 @@ def p2():
     # our result
     inc_count = 0
 
-    lines = get_file_contents("data/day1_input.txt")
+    real_file = os.path.join("..", "data", "day01_input.txt")
+    lines = common.get_file_contents(real_file)
+
     line_count = len(lines)
 
     # here we loop over the list of numbers

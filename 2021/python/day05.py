@@ -1,5 +1,6 @@
+import os
 from PIL import Image
-from common import get_file_contents
+import common
 
 
 class Point:
@@ -54,7 +55,6 @@ class Board:
 		self.diagonal = False
 		self.setup_grid()
 
-
 	def set_diagonal(self, val):
 		self.diagonal = val
 
@@ -64,7 +64,7 @@ class Board:
 	def add_line(self, new_line):
 		# check existing lines for any overlaps
 		self.lines.append(new_line)
-	
+
 		x = new_line.start.x
 		y = new_line.start.y
 		if new_line.direction == "horizontal":
@@ -84,7 +84,6 @@ class Board:
 						y -= 1
 					else:
 						y += 1
-	
 
 	def add_lines(self, line_list):
 		for line in line_list:
@@ -108,7 +107,6 @@ class Board:
 			print(x, y, len(self.grid), len(self.grid[0]))
 
 
-
 def parse_line(line):
 	parts = line.split("->")
 	start_pos_parts = parts[0].split(",")
@@ -117,39 +115,43 @@ def parse_line(line):
 
 
 def p1():
-	lines = get_file_contents("data/day5_input.txt")
-	board_lines = []
-	max_x = 0
-	max_y = 0
-	for line in lines:
-		new_line = parse_line(line)
-		if new_line.direction != "unknown":
-			board_lines.append(new_line)
-			max_x = max(max_x, new_line.start.x, new_line.end.x)
-			max_y = max(max_y, new_line.start.y, new_line.end.y)
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    lines = common.get_file_contents(real_file)
 
-	board = Board(max_x + 40, max_y + 40)
-	board.add_lines(board_lines)
+    board_lines = []
+    max_x = 0
+    max_y = 0
+    for line in lines:
+        new_line = parse_line(line)
+        if new_line.direction != "unknown":
+            board_lines.append(new_line)
+            max_x = max(max_x, new_line.start.x, new_line.end.x)
+            max_y = max(max_y, new_line.start.y, new_line.end.y)
 
-	return board.get_collision_count()
+    board = Board(max_x + 40, max_y + 40)
+    board.add_lines(board_lines)
+
+    return board.get_collision_count()
 
 
 def p2():
-	lines = get_file_contents("data/day5_input.txt")
-	board_lines = []
-	max_x = 0
-	max_y = 0
-	for line in lines:
-		new_line = parse_line(line)	
-		board_lines.append(new_line)
-		max_x = max(max_x, new_line.start.x, new_line.end.x)
-		max_y = max(max_y, new_line.start.y, new_line.end.y)
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    lines = common.get_file_contents(real_file)
 
-	board = Board(max_x + 40, max_y + 40)
-	board.set_diagonal(True)
-	board.add_lines(board_lines)
-	render_grid(board.grid)
-	return board.get_collision_count()
+    board_lines = []
+    max_x = 0
+    max_y = 0
+    for line in lines:
+        new_line = parse_line(line)
+        board_lines.append(new_line)
+        max_x = max(max_x, new_line.start.x, new_line.end.x)
+        max_y = max(max_y, new_line.start.y, new_line.end.y)
+
+    board = Board(max_x + 40, max_y + 40)
+    board.set_diagonal(True)
+    board.add_lines(board_lines)
+    render_grid(board.grid)
+    return board.get_collision_count()
 
 
 def render_grid(data):
@@ -173,7 +175,5 @@ def render_grid(data):
 
 
 if __name__ == '__main__':
-	# Not 5331
-	# Not 5295
 	print("Part 1:", p1())
 	print("Part 2:", p2())

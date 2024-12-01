@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 class Point:
@@ -55,7 +56,6 @@ def get_low_points(data):
 
 def get_basin(low_point, data):
     result = []
-    checked = []
 
     def get_node(x, y):
         try:
@@ -98,7 +98,9 @@ def get_basin(low_point, data):
 
 
 def p1():
-    lines = get_file_contents("data/day9_input.txt")
+    real_file = os.path.join("..", "data", "day09_input.txt")
+    lines = common.get_file_contents(real_file)
+
     result = 0
     for row_index, row in enumerate(lines):
         for col_index, col in enumerate(row):
@@ -109,8 +111,11 @@ def p1():
 
 
 def p2():
+    real_file = os.path.join("..", "data", "day09_input.txt")
+    lines = common.get_file_contents(real_file)
+
     basins = []
-    lines = get_file_contents("data/day9_input.txt")
+
     low_points = get_low_points(lines)
     for low_point in low_points:
         basin_points = get_basin(low_point, lines)

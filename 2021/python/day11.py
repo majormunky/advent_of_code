@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def get_data(debug=False):
@@ -14,13 +15,7 @@ def get_data(debug=False):
         4846848554
         5283751526
     """
-    debug_data_mini = """
-        11111
-        19991
-        19191
-        19991
-        11111
-    """
+
     if debug:
         result = []
         for line in debug_data.split("\n"):
@@ -28,7 +23,8 @@ def get_data(debug=False):
                 result.append(line.strip())
         return result
     else:
-        return get_file_contents("data/day11_data.txt")
+        real_file = os.path.join("..", "data", "day11_input.txt")
+        return common.get_file_contents(real_file)
 
 
 def print_grid(grid):
@@ -184,5 +180,5 @@ def p2():
 
 
 if __name__ == "__main__":
-    # print("Part 1:", p1())
+    print("Part 1:", p1())
     print("Part 2:", p2())

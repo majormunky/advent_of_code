@@ -1,29 +1,30 @@
-from common import get_file_contents
+import os
+import common
 from collections import defaultdict
 
 
 def p1():
-	lines = get_file_contents("data/day8_input.txt")
-	# the digits dict represents a mapping between how many segments are active
-	# and the actual value that is supposed to be reprenenting
-	digits = {
-		2: 1,
-		3: 7,
-		4: 4,
-		7: 8
-	}
-	found = 0
+    real_file = os.path.join("..", "data", "day08_input.txt")
+    lines = common.get_file_contents(real_file)
 
-	for line in lines:
-		parts = line.split("|")
-		more_parts = parts[1].split(" ")
-		for item in more_parts:
-			if len(item) in digits.keys():
-				found += 1
-	return found
+    # the digits dict represents a mapping between how many segments are active
+    # and the actual value that is supposed to be reprenenting
+    digits = {
+        2: 1,
+        3: 7,
+        4: 4,
+        7: 8
+    }
+    found = 0
 
+    for line in lines:
+        parts = line.split("|")
+        more_parts = parts[1].split(" ")
+        for item in more_parts:
+            if len(item) in digits.keys():
+                found += 1
+    return found
 
-# acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
 
 def calculate_digits(digit_list):
 	digit_to_segments = {}
@@ -55,14 +56,14 @@ def calculate_digits(digit_list):
 
 	# we should now have 3 items in this list, the 6, 9 and 0 digits
 	# the 6 isn't going to have all the segments that a 1 has, so we can start there
-	upper_right_segment = None
+	# upper_right_segment = None
 	for i in six_or_nine:
 		letter_list = set(i)
 		diff = letter_list - digit_to_segments[1]
 		if len(diff) == 5:
 			# this is a 6
 			digit_to_segments[6] = set(list(i))
-			upper_right_segment = digit_to_segments[1] - letter_list
+			# upper_right_segment = digit_to_segments[1] - letter_list
 			six_or_nine.remove(i)
 
 	# we now have 6 set
@@ -110,27 +111,29 @@ def calculate_digits(digit_list):
 
 
 def p2():
-	lines = get_file_contents("data/day8_input.txt")
-	# segment count -> digit
-	result = 0
-	
-	# figure out what the other digits are
-	for line in lines:
-		parts = line.split("|")
-		all_digits = parts[0].split(" ")
-		value_parts = parts[1].split(" ")
-		digit_mapping = calculate_digits(all_digits)
-		value = []
+    real_file = os.path.join("..", "data", "day08_input.txt")
+    lines = common.get_file_contents(real_file)
 
-		for vp in value_parts:
-			vp_set = set(list(vp))
-			for digit, letter_set in digit_mapping.items():
-				if len(vp_set.symmetric_difference(letter_set)) == 0:
-					value.append(str(digit))
+    # segment count -> digit
+    result = 0
 
-		int_val = int("".join(value))
-		result += int_val
-	return result
+    # figure out what the other digits are
+    for line in lines:
+        parts = line.split("|")
+        all_digits = parts[0].split(" ")
+        value_parts = parts[1].split(" ")
+        digit_mapping = calculate_digits(all_digits)
+        value = []
+
+        for vp in value_parts:
+            vp_set = set(list(vp))
+            for digit, letter_set in digit_mapping.items():
+                if len(vp_set.symmetric_difference(letter_set)) == 0:
+                    value.append(str(digit))
+
+        int_val = int("".join(value))
+        result += int_val
+    return result
 
 if __name__ == '__main__':
 	print("Part 1:", p1())

@@ -1,9 +1,10 @@
-from common import get_file_contents
+import os
+import common
 
 
 class BingoBoard:
     def __init__(self, data):
-        self.winning_number = None
+        self.winning_number = 0
         self.completed = False
         self.lines = []
         for line in data:
@@ -76,13 +77,13 @@ def build_boards(lines):
 
 
 def p1():
-    data = get_file_contents("data/day4_input.txt")
+    real_file = os.path.join("..", "data", "day04_input.txt")
+    data = common.get_file_contents(real_file)
+
     bingo_numbers = data.pop(0)
-    blank_line = data.pop(0)
+    data.pop(0)
 
     boards = build_boards(data)
-
-    done = False
 
     numbers_drawn = []
 
@@ -103,17 +104,19 @@ def p1():
     # winning_board.print_board()
     print()
 
-    return winning_board.get_score()
+    if winning_board:
+        return winning_board.get_score()
+    return 0
 
 
 def p2():
-    data = get_file_contents("data/day4_input.txt")
+    real_file = os.path.join("..", "data", "day04_input.txt")
+    data = common.get_file_contents(real_file)
+
     bingo_numbers = data.pop(0)
-    blank_line = data.pop(0)
+    data.pop(0)
 
     boards = build_boards(data)
-
-    done = False
 
     numbers_drawn = []
 

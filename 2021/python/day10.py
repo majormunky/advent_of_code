@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 openers = ["{", "[", "<", "("]
@@ -54,7 +55,9 @@ def get_data(source="real"):
 	"""
 
     if source == "real":
-        return get_file_contents("data/day10_input.txt")
+        real_file = os.path.join("..", "data", "day10_input.txt")
+        lines = common.get_file_contents(real_file)
+        return lines
     else:
         result = []
         for line in test_data.split("\n"):

@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def split_items(data, separator=",", as_int=False):
@@ -27,34 +28,38 @@ def get_fuel_usage_new(crab_list, target):
 	return fuel
 
 def p1():
-	data = get_file_contents("data/day7_input.txt")[0]
-	items = split_items(data, as_int=True)
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
 
-	lowest = 1_000_000_000
-	lowest_target = None
-	
-	for i in range(max(items)):
-		usage = get_fuel_usage_old(items, i)
-		if usage < lowest:
-			lowest = usage
-			lowest_target = i
+    items = split_items(data, as_int=True)
 
-	print(lowest, lowest_target)
+    lowest = 1_000_000_000
+    lowest_target = None
+
+    for i in range(max(items)):
+        usage = get_fuel_usage_old(items, i)
+        if usage < lowest:
+            lowest = usage
+            lowest_target = i
+    return lowest, lowest_target
+
 
 def p2():
-	data = get_file_contents("data/day7_input.txt")[0]
-	items = split_items(data, as_int=True)
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    data = common.get_file_contents(real_file, single_line=True)
 
-	lowest = 1_000_000_000
-	lowest_target = None
-	
-	for i in range(max(items)):
-		usage = get_fuel_usage_new(items, i)
-		if usage < lowest:
-			lowest = usage
-			lowest_target = i
+    items = split_items(data, as_int=True)
 
-	print(lowest, lowest_target)
+    lowest = 1_000_000_000
+    lowest_target = None
+
+    for i in range(max(items)):
+        usage = get_fuel_usage_new(items, i)
+        if usage < lowest:
+            lowest = usage
+            lowest_target = i
+
+    return lowest, lowest_target
 
 
 if __name__ == '__main__':

@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def tick(val):
@@ -14,7 +15,9 @@ def tick(val):
 
 
 def p1():
-    lines = get_file_contents("data/day6_input.txt")
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    lines = common.get_file_contents(real_file)
+
     # lines = ['3,4,3,1,2']
     fish = []
     new_fish = []
@@ -40,10 +43,12 @@ def p2():
     we instead count how many fish we have at each stage.  this lets us process the
     entire batch of fish in one step, instead of iterating over every fish
     """
-    lines = get_file_contents("data/day6_input.txt")
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    lines = common.get_file_contents(real_file)
+
     # lines = ['3,4,3,1,2']
     fish = {}
-    new_fish = []
+
     for item in lines[0].split(","):
         fish_num = int(item)
         if fish_num not in fish.keys():
@@ -82,7 +87,9 @@ def p2():
 
 
 def p2_slow():
-    lines = get_file_contents("data/day6_input.txt")
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    lines = common.get_file_contents(real_file)
+
     # lines = ['3,4,3,1,2']
     fish = []
     new_fish = []

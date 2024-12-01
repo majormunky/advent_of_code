@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def most_common(index, items, total):
@@ -32,7 +33,9 @@ def build_frequency(lines):
 
 
 def p1():
-    lines = get_file_contents("data/day3_input.txt")
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    lines = common.get_file_contents(real_file)
+
     freq = build_frequency(lines)
 
     gamma = [most_common(i, freq, len(lines)) for i in range(len(freq))]
@@ -84,7 +87,8 @@ test_data = [
 
 
 def p2():
-    lines = get_file_contents("data/day3_input.txt")
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    lines = common.get_file_contents(real_file)
 
     oxygen = get_item(lines, most_common)
     scrubber = get_item(lines, least_common)
