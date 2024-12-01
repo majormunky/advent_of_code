@@ -1,10 +1,7 @@
-import pprint
-import sys
+# import pprint
+import os
 import common
 from dataclasses import dataclass, field
-
-
-data = common.get_file_contents("data/day8_input.txt")
 
 
 @dataclass
@@ -17,7 +14,7 @@ class ProgramState:
 
     def process_instruction(self, i):
         inst_type = i["type"]
-        
+
         if inst_type == "nop":
             self.index += 1
         elif inst_type == "acc":
@@ -26,7 +23,7 @@ class ProgramState:
             else:
                 self.acc -= i["amount"]
             self.index += 1
-        elif inst_type == "jmp":            
+        elif inst_type == "jmp":
             if i["direction"] == "plus":
                 self.index += i["amount"]
             else:
@@ -71,7 +68,7 @@ def parse_instruction(line):
 
     amount_parts.pop(0)
     amount = "".join(amount_parts)
-    
+
     return {
         "type": parts[0],
         "direction": plus_or_minus,
@@ -80,6 +77,9 @@ def parse_instruction(line):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day08_input.txt")
+    data = common.get_file_contents(real_file)
+
     accumulator = 0
     index = 0
 
@@ -90,13 +90,13 @@ def part1():
             break
 
         visited_indexes.append(index)
-        
+
         try:
             line = data[index]
         except IndexError:
             print("Index: ", index)
             break
-        
+
         inst = parse_instruction(line)
 
         inst_type = inst["type"]
@@ -109,19 +109,19 @@ def part1():
             else:
                 accumulator -= inst["amount"]
             index += 1
-        elif inst_type == "jmp":            
+        elif inst_type == "jmp":
             if inst["direction"] == "plus":
                 index += inst["amount"]
             else:
                 index -= inst["amount"]
 
-        
+
     return accumulator
 
 
 def part2():
     program_data = test_lines
-    
+
     print("Running Part 2")
     state = ProgramState()
     state.program_length = len(program_data)
@@ -136,7 +136,7 @@ def part2():
         if len(state_list) == 0:
             print("State List Empty")
             break
-        
+
         if active_state is None:
             print("Getting new active state")
             active_state = state_list.pop()
@@ -148,7 +148,7 @@ def part2():
             print(active_state)
             active_state = None
             continue
-            
+
         try:
             line = program_data[active_state.index]
         except IndexError:
@@ -163,7 +163,7 @@ def part2():
             else:
                 print("Not the answer")
                 print("State Length:", len(state_list))
-                print(active_state)                
+                print(active_state)
                 active_state = None
                 continue
 
@@ -184,7 +184,7 @@ def part2():
                 }
                 state_copy.process_instruction(new_instruction)
                 active_state.process_instruction(inst)
-                
+
             else:
                 new_instruction = {
                     "type": "nop",

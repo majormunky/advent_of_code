@@ -1,16 +1,8 @@
-import pprint
-import sys
+# import pprint
+import os
 import common
 
 
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 test_data = """
 light red bags contain 1 bright white bag, 2 muted yellow bags.
 dark orange bags contain 3 bright white bags, 4 muted yellow bags.
@@ -61,6 +53,9 @@ def check_bag_for_gold(bag_data):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day07_input.txt")
+    data = common.get_file_contents(real_file)
+
     # first we arrange our data in layers of dicts
     bags = find_gold_holding_bags(data)
 
@@ -107,6 +102,9 @@ def parse_bag_data(lines):
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day07_input.txt")
+    data = common.get_file_contents(real_file)
+
     bags = parse_bag_data(data)
 
     bags_to_check = ["shiny gold"]

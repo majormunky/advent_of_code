@@ -1,18 +1,12 @@
-import sys
+import os
 import common
 import math
 
 
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
-
-
 def run_slop_test(right, down):
+    real_file = os.path.join("..", "data", "day01_input.txt")
+    data = common.get_file_contents(real_file)
+
     # holds the map we will navigate
     field = []
 
@@ -49,6 +43,9 @@ def run_slop_test(right, down):
 
 
 def part1():
+    # real_file = os.path.join("..", "data", "day01_input.txt")
+    # data = common.get_file_contents(real_file)
+
     return run_slop_test(3, 1)
 
 
@@ -77,4 +74,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

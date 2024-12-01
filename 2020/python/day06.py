@@ -1,15 +1,5 @@
-import sys
+import os
 import common
-
-
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
 def split_into_groups(lines):
@@ -53,6 +43,9 @@ def count_all_answers(answer_list):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    data = common.get_file_contents(real_file)
+
     total = 0
     groups = split_into_groups(data)
     for g in groups:
@@ -61,12 +54,15 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day06_input.txt")
+    data = common.get_file_contents(real_file)
+
     total = 0
     groups = split_into_groups(data)
     for g in groups:
         total += count_all_answers(g)
     return total
-    
+
 
 def main():
     part1_answer = part1()

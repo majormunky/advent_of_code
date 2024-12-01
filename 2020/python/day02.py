@@ -1,14 +1,5 @@
-import sys
+import os
 import common
-
-
-def get_filename():
-    filename = sys.argv[0]
-    filename = filename.split("/")[-1]
-    filename = filename.split(".")[0]
-    return filename
-
-data = common.get_file_contents("data/{}_input.txt".format(get_filename()))
 
 
 def check_password(line):
@@ -54,7 +45,7 @@ def check_password_part2(line):
     # test second index
     if parts[2][index2] == check_letter:
         matches += 1
-    
+
     # password matches only when we have one match
     if matches == 1:
         return True
@@ -62,6 +53,9 @@ def check_password_part2(line):
 
 
 def part1():
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
     result = 0
     for item in data:
         if check_password(item):
@@ -70,6 +64,9 @@ def part1():
 
 
 def part2():
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    data = common.get_file_contents(real_file)
+
     result = 0
     for item in data:
         if check_password_part2(item):
@@ -86,4 +83,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
