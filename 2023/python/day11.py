@@ -155,7 +155,7 @@ def get_data(debug, test_data):
     if debug:
         data = list(test_data)
     else:
-        data = common.get_file_contents("data/day11_input.txt")
+        data = common.get_file_contents("../data/day11_input.txt")
     return data
 
 

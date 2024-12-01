@@ -45,7 +45,7 @@ def parse_data(data):
 	seed_parts = seed_line.split(":")
 	seed_list = seed_parts[-1].strip().split(" ")
 	result = {"seeds": seed_list}
-	
+
 	new_group = False
 	new_group_key = None
 
@@ -85,18 +85,14 @@ def follow_chain(seed_num, data):
 		"humidity-to-location"
 	]
 
-	# result_dict = {"seed": seed_num}
-
 	current_value = seed_num
 	for i in maps:
-		found = False
 		for item_range in data[i]:
 			try:
 				current_value_index = item_range["source"].index(current_value)
 				dest_value = item_range["dest"][current_value_index]
 				# result_dict[i] = dest_value
 				current_value = dest_value
-				found = True
 				break
 			except ValueError:
 				# result_dict[i] = current_value
@@ -141,7 +137,7 @@ def part1(debug=True):
 	if debug:
 		data = test_data
 	else:
-		data = common.get_file_contents("data/day05_input.txt")
+		data = common.get_file_contents("../data/day05_input.txt")
 
 	parsed_data = parse_data(data)
 	print("Data parsed")
@@ -175,7 +171,7 @@ def part2_slow(debug=True):
 	if debug:
 		data = test_data
 	else:
-		data = common.get_file_contents("data/day05_input.txt")
+		data = common.get_file_contents("../data/day05_input.txt")
 
 	parsed_data = parse_data(data)
 
@@ -189,7 +185,7 @@ def part2_slow(debug=True):
 
 		seed_chain = follow_chain(s, parsed_data)
 		chains_completed += 1
-		
+
 		if chains_completed % 10000 == 0:
 			print("Chains Completed: ", chains_completed)
 		if seed_chain < lowest:
@@ -275,7 +271,7 @@ def in_cache(range_val):
 
 def write_cache(range_val, lowest):
 	cache_name = "day5-cache.txt"
-	
+
 	range_str = f"{range_val[0]}-{range_val[-1]}"
 	with open(cache_name, "a") as f:
 		f.write(f"{range_str}:{lowest}\n")
@@ -286,7 +282,7 @@ def part2():
 	if debug:
 		data = test_data
 	else:
-		data = common.get_file_contents("data/day05_input.txt")
+		data = common.get_file_contents("../data/day05_input.txt")
 
 	parsed_data = parse_data(data)
 
@@ -311,10 +307,10 @@ def part2():
 			print(f"Took {end_time} seconds")
 		else:
 			print("Seed range in cache, skipping")
-		
+
 	print(lowest)
 
 
 if __name__ == '__main__':
-	part1() 
-	part2(False) # 31161857
+	part1()
+	part2()

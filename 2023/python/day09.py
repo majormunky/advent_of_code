@@ -12,7 +12,7 @@ def get_data(debug):
     if debug:
         data = test_data
     else:
-        data = common.get_file_contents("data/day09_input.txt")
+        data = common.get_file_contents("../data/day09_input.txt")
     return data
 
 

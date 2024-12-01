@@ -1,10 +1,11 @@
+import os
+import common
 import time
 import operator
 import functools
 
 
 test_data = ["Time:7 15 30", "Distance: 9 40 200"]
-real_data = ["Time: 46 85 75 82", "Distance: 208 1412 1257 1410"]
 
 
 def parse_lines(lines):
@@ -60,7 +61,8 @@ def part1(debug=True):
     if debug:
         lines = test_data
     else:
-        lines = real_data
+        filepath = os.path.join("..", "data", "day06_input.txt")
+        lines = common.get_file_contents(filepath)
 
     data = parse_lines(lines)
 
@@ -79,9 +81,8 @@ def part2(debug=True):
     if debug:
         lines = [71530, 940200]
     else:
-        lines = [46857582, 208141212571410]
-
-    time_data = []
+        filepath = os.path.join("..", "data", "day06_input.txt")
+        lines = common.get_file_contents(filepath)
 
     race_time, distance = lines
     result = process_race(race_time, distance)

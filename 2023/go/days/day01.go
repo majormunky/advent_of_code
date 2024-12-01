@@ -89,11 +89,11 @@ func processDay(filepath string, transform func(string) int) int {
 }
 
 func Day01Part1() int {
-	answer := processDay("data/day01_input.txt", process_line_part1)
+	answer := processDay("../data/day01_input.txt", process_line_part1)
 	return answer
 }
 
 func Day01Part2() int {
-	answer := processDay("data/day01_input.txt", process_line_part2)
+	answer := processDay("../data/day01_input.txt", process_line_part2)
 	return answer
 }

@@ -62,7 +62,7 @@ def get_puzzle_data(debug, test_data=None):
     if debug:
         data = test_data
     else:
-        data = common.get_file_contents("data/day10_input.txt")
+        data = common.get_file_contents("../data/day10_input.txt")
     return data
 
 

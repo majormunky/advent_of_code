@@ -15,7 +15,7 @@ extension Character {
     func asInt() -> Int? {
         guard self.isNumber else { return nil }
         guard let myNumber = NumberFormatter().number(from: String(self)) else { return nil }
-        
+
         return myNumber.intValue
     }
 }
@@ -24,7 +24,7 @@ var testStrings = [
     "1abc2",
     "pqr3stu8vwx",
     "a1b2c3d4e5f",
-    "treb7uchet"
+    "treb7uchet",
 ]
 
 var testStrings2 = [
@@ -34,7 +34,7 @@ var testStrings2 = [
     "xtwone3four",
     "4nineeightseven2",
     "zoneight234",
-    "7pqrstsixteen"
+    "7pqrstsixteen",
 ]
 
 let lines = getLines()
@@ -44,17 +44,16 @@ print("Part 1: \(answer_part1)")
 let answer_part2 = part2(data: lines)
 print("Part 2: \(answer_part2)")
 
-
 func getLines() -> [String] {
-    let filePath = "data/day01_input.txt"
+    let filePath = "../data/day01_input.txt"
     let fileContents = try? String(contentsOfFile: filePath)
-    
+
     return fileContents?.components(separatedBy: .newlines) ?? []
 }
-    
+
 func part1(data: [String]) -> Int {
     var values: [Int] = []
-    
+
     for item in data {
         var rowValues: [Int] = []
         item.forEach { c in
@@ -62,7 +61,7 @@ func part1(data: [String]) -> Int {
                 rowValues.append(numValue)
             }
         }
-        
+
         if rowValues.count > 0 {
             let intStr = "\(rowValues.first!)\(rowValues.last!)"
             if let intStr = NumberFormatter().number(from: intStr) {
@@ -70,7 +69,7 @@ func part1(data: [String]) -> Int {
             }
         }
     }
-    
+
     return values.sum()
 }
 
@@ -84,15 +83,15 @@ func process(line: String) -> Int? {
         "six": 6,
         "seven": 7,
         "eight": 8,
-        "nine": 9
+        "nine": 9,
     ]
-    
+
     var numbers: [Int] = []
 
     for index in 0...line.count {
         let startIndex = line.index(line.startIndex, offsetBy: index)
         let subStr = line[startIndex..<line.endIndex]
-        
+
         for (numString, numValue) in numberStrings {
             if subStr.hasPrefix(numString) {
                 numbers.append(numValue)
@@ -101,18 +100,18 @@ func process(line: String) -> Int? {
             }
         }
     }
-    
+
     let intStr = "\(numbers.first!)\(numbers.last!)"
     if let intStr = NumberFormatter().number(from: intStr) {
         return intStr.intValue
     }
-    
+
     return nil
 }
 
 func part2(data: [String]) -> Int {
     var answer = 0
-    
+
     for item in data {
         if item.count == 0 {
             continue
@@ -121,6 +120,6 @@ func part2(data: [String]) -> Int {
             answer += lineAnswer
         }
     }
-    
+
     return answer
 }

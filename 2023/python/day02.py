@@ -52,7 +52,7 @@ def get_box_data(lines):
 
 
 def part1():
-    lines = common.get_file_contents("data/day02_input.txt")
+    lines = common.get_file_contents("../data/day02_input.txt")
 
     good_games = []
 
@@ -74,7 +74,7 @@ def part1():
 
 
 def part2():
-    lines = common.get_file_contents("data/day02_input.txt")
+    lines = common.get_file_contents("../data/day02_input.txt")
     box_data = get_box_data(lines)
     answer = 0
 

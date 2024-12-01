@@ -25,7 +25,7 @@ def get_data(debug, test_data):
     if debug:
         return test_data
     else:
-        return common.get_file_contents("data/day08_input.txt")
+        return common.get_file_contents("../data/day08_input.txt")
 
 
 def parse_lines(lines):

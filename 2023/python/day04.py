@@ -50,14 +50,12 @@ def get_card_score(amount_matched):
 
 	return score
 
-	
-
 
 def part1(debug=True):
 	if debug:
 		data = test_data
 	else:
-		data = common.get_file_contents("data/day04_input.txt")
+		data = common.get_file_contents("../data/day04_input.txt")
 
 	answer = 0
 	for line in data:
@@ -87,7 +85,7 @@ def part2(debug=True):
 	if debug:
 		data = test_data
 	else:
-		data = common.get_file_contents("data/day04_input.txt")
+		data = common.get_file_contents("../data/day04_input.txt")
 
 	win_data = {}
 	cards = []
@@ -113,5 +111,5 @@ def part2(debug=True):
 
 
 if __name__ == '__main__':
-	part1(False) # 25010
+	part1(False)
 	part2(False)

@@ -198,7 +198,7 @@ def part1(debug=True):
     if debug:
         lines = test_lines
     else:
-        lines = common.get_file_contents("data/day07_input.txt")
+        lines = common.get_file_contents("../data/day07_input.txt")
 
     data = parse_lines(lines)
 
@@ -238,7 +238,7 @@ def part2(debug=True):
     if debug:
         lines = test_lines
     else:
-        lines = common.get_file_contents("data/day07_input.txt")
+        lines = common.get_file_contents("../data/day07_input.txt")
 
     data = parse_lines(lines)
 

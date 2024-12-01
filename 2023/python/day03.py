@@ -140,7 +140,7 @@ def part1(debug=False):
     if debug:
         data = test_data
     else:
-        data = common.get_file_contents("data/day03_input.txt")
+        data = common.get_file_contents("../data/day03_input.txt")
 
     part_numbers = get_part_numbers(data)
     valid = []
@@ -274,7 +274,7 @@ def part2(debug=False):
     if debug:
         data = test_data
     else:
-        data = common.get_file_contents("data/day03_input.txt")
+        data = common.get_file_contents("../data/day03_input.txt")
     answer = 0
 
     # first, get a list of row / col indexes that contain a *
@@ -299,5 +299,5 @@ def part2(debug=False):
 
 
 if __name__ == "__main__":
-    part1()  # 530849
-    part2()  # 84900879
+    part1()
+    part2()

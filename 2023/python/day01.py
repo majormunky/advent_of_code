@@ -57,7 +57,7 @@ def part1():
     # store final answer
     result = 0
 
-    filepath = os.path.join("data", "day01_input.txt")
+    filepath = os.path.join("..", "data", "day01_input.txt")
 
     # get lines
     lines = common.get_file_contents(filepath)
@@ -86,7 +86,7 @@ def part2():
     # store final answer
     result = 0
 
-    filepath = os.path.join("data", "day01_input.txt")
+    filepath = os.path.join("..", "data", "day01_input.txt")
 
     # get lines
     lines = common.get_file_contents(filepath)

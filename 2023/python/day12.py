@@ -16,7 +16,7 @@ def get_data(debug, data):
     if debug:
         data = list(data)
     else:
-        data = common.get_file_contents("data/day12_input.txt")
+        data = common.get_file_contents("../data/day12_input.txt")
     return data
 
 

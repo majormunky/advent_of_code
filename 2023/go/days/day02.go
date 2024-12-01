@@ -31,7 +31,7 @@ func generateGame(line string) game {
 }
 
 func Day02Part1() {
-	lines, err := utils.GetFileLines("data/day02_input.test")
+	lines, err := utils.GetFileLines("../data/day02_input.test")
 	if err != nil {
 		log.Fatal(err)
 	}
