@@ -1,5 +1,7 @@
+import os
+import common
 import string
-from common import get_file_contents
+
 
 
 def get_line_parts(line):
@@ -47,7 +49,9 @@ def get_common_item_from_group(group):
 
 
 def p1():
-    lines = get_file_contents("data/day03_input.txt")
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    lines = common.get_file_contents(real_file)
+
     result = 0
     for line in lines:
         answer = process_line_p1(line)
@@ -70,7 +74,9 @@ def test_get_groups_from_lines():
 
 
 def p2():
-    lines = get_file_contents("data/day03_input.txt")
+    real_file = os.path.join("..", "data", "day03_input.txt")
+    lines = common.get_file_contents(real_file)
+
     groups = get_groups_from_lines(lines)
     result = 0
     for group in groups:

@@ -9,10 +9,10 @@ proc getCodeForChar(s: char): int =
 
     for asciiCode in 97..122:
         letters.add(chr(asciiCode))
-    
+
     for asciiCode in 65..90:
         letters.add(chr(asciiCode))
-    
+
     result = find(letters, s)
     result += 1
 
@@ -25,7 +25,7 @@ test_lines.add("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn")
 test_lines.add("ttgJtRGJQctTZtZT")
 test_lines.add("CrZsJsPPZsGzwwsLwLmpwMDw")
 
-let contents = readFile("data/day3_data.txt").strip()
+let contents = readFile("../data/day3_data.txt").strip()
 let lines = contents.splitLines()
 
 proc part1(lines: seq[string]): int =
@@ -58,7 +58,7 @@ proc part2(lines: seq[string]): int =
         if len(temp_group) == 3:
             grouped.add(temp_group)
             temp_group = @[]
-    
+
     for group in grouped:
         let first = toSeq(group[0])
         let second = toSeq(group[1])

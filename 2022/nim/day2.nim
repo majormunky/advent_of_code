@@ -83,7 +83,7 @@ proc get_your_choice(opp_choice: string, outcome: string): string =
 # test_lines.add("B X")
 # test_lines.add("C Z")
 
-let contents = readFile("data/day2_data.txt").strip()
+let contents = readFile("../data/day2_data.txt").strip()
 let lines = contents.splitLines()
 
 proc part1(lines: seq[string]): int =
@@ -92,7 +92,7 @@ proc part1(lines: seq[string]): int =
         let opp_choice = convert_to_object(parts[0])
         let your_choice = convert_to_object(parts[1])
         result += get_score_for_selection(your_choice)
-        result += get_score_for_game(opp_choice, your_choice)    
+        result += get_score_for_game(opp_choice, your_choice)
 
 
 proc part2(lines: seq[string]): int =

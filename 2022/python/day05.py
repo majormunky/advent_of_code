@@ -1,7 +1,7 @@
 import time
 import sys
 import os
-from common import get_file_contents
+import common
 
 
 def get_stack_data(lines):
@@ -131,9 +131,9 @@ def get_test_lines():
 
 def p1():
     should_render_frames = False
-    lines = get_file_contents(
-        "data/day05_input.txt", single_line=False, strip_line=False
-    )
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    lines = common.get_file_contents(real_file, single_line=False, strip_line=False)
+
     data = parse_stack_data(get_stack_data(lines))
     instructions = get_instructions(lines)
 
@@ -163,9 +163,8 @@ def p1():
 
 def p2():
     should_render_frames = False
-    lines = get_file_contents(
-        "data/day05_input.txt", single_line=False, strip_line=False
-    )
+    real_file = os.path.join("..", "data", "day05_input.txt")
+    lines = common.get_file_contents(real_file, single_line=False, strip_line=False)
     data = parse_stack_data(get_stack_data(lines))
     instructions = get_instructions(lines)
 
@@ -194,6 +193,7 @@ def p2():
 
 
 def main():
+    p1()
     p2()
 
 

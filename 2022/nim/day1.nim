@@ -1,7 +1,7 @@
 import strutils
 import std/algorithm
 
-let contents = readFile("data/day1_data.txt").strip()
+let contents = readFile("../data/day1_data.txt").strip()
 let lines = contents.splitLines()
 
 proc part1(lines: seq[string]): int =
@@ -21,7 +21,7 @@ proc part1(lines: seq[string]): int =
     result = heavy_elf
 
 
-proc part2(lines: seq[string]): int = 
+proc part2(lines: seq[string]): int =
     var current_elf = 0
     var elf_list: seq[int] = @[]
 

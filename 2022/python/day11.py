@@ -1,7 +1,6 @@
-import time
-import sys
+import os
 import math
-from common import get_file_contents
+import common
 
 
 def get_chunks(lines):
@@ -66,7 +65,7 @@ class Monkey:
         else:
             self.operation_type = "increases"
 
-    def perform_operation(self, val):
+    def perform_operation(self, val) -> int:
         if self.operation_type == "increases":
             if self.operation_val == "old":
                 return val + val
@@ -77,6 +76,7 @@ class Monkey:
                 return val * val
             else:
                 return self.operation_val * val
+        return 0
 
     def build_test_func(self, line):
         parts = line.split(" ")
@@ -215,21 +215,25 @@ class MonkeyTrainer:
 
 
 def part1():
-    lines = get_file_contents("data/day11_input.txt")
+    real_file = os.path.join("..", "data", "day11_input.txt")
+    lines = common.get_file_contents(real_file)
+
     chunks = get_chunks(lines)
     trainer = MonkeyTrainer(chunks, True)
     trainer.run(20)
-    print(trainer.get_monkey_business_amount())
+    return trainer.get_monkey_business_amount()
 
 
 def part2():
-    lines = get_file_contents("data/day11_input.txt")
+    real_file = os.path.join("..", "data", "day11_input.txt")
+    lines = common.get_file_contents(real_file)
+
     chunks = get_chunks(lines)
     trainer = MonkeyTrainer(chunks, False)
     trainer.run(10000, True)
-    print(trainer.get_monkey_business_amount())
+    return trainer.get_monkey_business_amount()
 
 
 if __name__ == "__main__":
-    # part1()  # 110888
-    part2()  # 25590400731
+    part1()
+    part2()

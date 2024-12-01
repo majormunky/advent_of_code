@@ -1,7 +1,7 @@
 import os
 import sys
 import math
-from common import get_file_contents
+import common
 
 DEBUG = True
 BOARD_WIDTH = 6
@@ -15,7 +15,7 @@ def print_message(msg):
 
 
 class Point:
-    def __init__(self, x, y, icon):
+    def __init__(self, x, y, icon=None):
         self.x = int(x)
         self.y = int(y)
         self.icon = icon
@@ -154,7 +154,9 @@ def process_line(line, start, head, tail):
 
 
 def p1():
-    lines = get_file_contents("data/day09_input.txt")
+    real_file = os.path.join("..", "data", "day09_input.txt")
+    lines = common.get_file_contents(real_file)
+
     # print_message(len(lines))
 
     head = Point(0, 0)
@@ -227,7 +229,7 @@ def p2():
         "L 5",
         "R 2"
     ]
-    
+
     test_lines2 = [
         "R 5",
         "U 8",
@@ -239,16 +241,17 @@ def p2():
         "U 20",
     ]
 
-    lines = get_file_contents("data/day09_input.txt")
+    real_file = os.path.join("..", "data", "day09_input.txt")
+    lines = common.get_file_contents(real_file)
 
-    frames = []
+    # frames = []
 
     nodes_to_create = 8
-    start = Point(100, 100, "s")    
+    start = Point(100, 100, "s")
     head = Point(start.x, start.y, "H")
     tail = head
 
-    board_size = 400
+    # board_size = 400
 
     while nodes_to_create >= 0:
         if nodes_to_create == 0:
@@ -307,8 +310,9 @@ def p2():
     # display_frames(frames)
     print(len(tail.visited_tiles))
 
-    
+
 def main():
+    p1()
     p2()
 
 

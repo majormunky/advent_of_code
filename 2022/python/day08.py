@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 DEBUG = False
@@ -127,7 +128,9 @@ def print_message(msg):
 
 
 def p1():
-    lines = get_file_contents("data/day08_input.txt")
+    real_file = os.path.join("..", "data", "day08_input.txt")
+    lines = common.get_file_contents(real_file)
+
     count = 0
     for y in range(0, len(lines)):
         for x in range(0, len(lines[0])):
@@ -160,7 +163,8 @@ def p2():
     #     "33549",
     #     "35390",
     # ]
-    lines = get_file_contents("data/day08_input.txt")
+    real_file = os.path.join("..", "data", "day08_input.txt")
+    lines = common.get_file_contents(real_file)
 
     tree_score = None
     selected_tree = None

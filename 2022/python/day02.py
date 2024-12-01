@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def get_winning_shape(target):
@@ -95,7 +96,7 @@ def score_game_p1(lines):
         elif who_won == "same":
             message += f" Ended in a draw.  Game Score: {this_game_score}"
         elif who_won == "left":
-            message += f" You lost.  Game Score: 0"
+            message += " You lost.  Game Score: 0"
         print(message)
         total_score += this_game_score
     return total_score
@@ -140,7 +141,8 @@ def p1():
             - 3 Draw
             - 6 Win
     """
-    lines = get_file_contents("data/day02_input.txt")
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    lines = common.get_file_contents(real_file)
     score = score_game_p1(lines)
 
     print("Score: ", score)
@@ -159,12 +161,15 @@ def p2():
     #     "B X",
     #     "C Z",
     # ]
-    lines = get_file_contents("data/day02_input.txt")
+    real_file = os.path.join("..", "data", "day02_input.txt")
+    lines = common.get_file_contents(real_file)
+
     score = score_game_p2(lines)
     print(score)
 
 
 def main():
+    p1()
     p2()
 
 

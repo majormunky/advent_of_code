@@ -15,7 +15,7 @@ end
 
 
 function collect_values_from_elves()
-    local file = "data/day01_input.txt"
+    local file = "../data/day01_input.txt"
     local lines = lines_from(file)
     local current_count = 0
     local all_elves = {}
@@ -25,7 +25,7 @@ function collect_values_from_elves()
         if line == "" then                                      -- If our line is empty, it means we are done checking that elf
             all_elves[#all_elves + 1] = current_count
             current_count = 0                                   -- Reset count for the next elf
-        else 
+        else
             current_count = current_count + tonumber(line)      -- Keep counting how many the current elf has
         end
     end
@@ -40,7 +40,6 @@ function day01_part01()
 
     table.sort(elf_values)
 
-    -- Answer: 69795
     print(elf_values[#elf_values])
 end
 
@@ -50,7 +49,6 @@ function day01_part02()
     table.sort(elf_values)
 
     local answer = elf_values[#elf_values] + elf_values[#elf_values - 1] + elf_values[#elf_values - 2]
-    -- Answer: 208437
     print(answer)
 end
 

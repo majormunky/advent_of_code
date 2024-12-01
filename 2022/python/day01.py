@@ -7,7 +7,7 @@ def get_calorie_count(items):
 
 
 def get_data():
-    filepath = os.path.join(common.DATA_DIR, "day01_input.txt")
+    filepath = os.path.join("..", "data", "day01_input.txt")
     lines = common.get_file_contents(filepath)
 
     elves = []
@@ -49,4 +49,5 @@ def p2():
 
 
 if __name__ == "__main__":
+    p1()
     p2()

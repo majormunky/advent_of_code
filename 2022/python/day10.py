@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def run_program(lines):
@@ -10,7 +11,7 @@ def run_program(lines):
     cycles = 0
 
     result = {}
-    
+
     while True:
         # First thing we do is increment the cycle count
         cycles += 1
@@ -38,13 +39,15 @@ def run_program(lines):
 
 
 def p1():
-    test_lines = [
-        "noop",
-        "addx 3",
-        "addx -5",
-    ]
+    # test_lines = [
+    #     "noop",
+    #     "addx 3",
+    #     "addx -5",
+    # ]
 
-    lines = get_file_contents("data/day10_input.txt")
+    real_file = os.path.join("..", "data", "day10_input.txt")
+    lines = common.get_file_contents(real_file)
+
     result = run_program(lines)
     check_keys = [20, 60, 100, 140, 180, 220]
 
@@ -56,8 +59,10 @@ def p1():
 
 
 def p2():
-    # lines = get_file_contents("data/day10_test.input")
-    lines = get_file_contents("data/day10_input.txt")
+    # test_file = os.path.join("..", "data", "data/day10_test.input")
+    real_file = os.path.join("..", "data", "day10_input.txt")
+    lines = common.get_file_contents(real_file)
+
     result = run_program(lines)
     cycle_count = len(result.keys())
     output = ""
@@ -65,14 +70,14 @@ def p2():
     row_length = 40
     current_row = 0
     col_counter = 0
-    
+
     for index in range(cycle_count):
         cycle = index + 1
         x = result[cycle]
 
         row_diff = row_length * current_row
         index -= row_diff
-        
+
         cycle_diff = abs(int(index) - int(x))
 
         print(cycle, x, row_diff, cycle_diff)
@@ -101,6 +106,7 @@ def print_answer(output):
 
 
 def main():
+    p1()
     p2()
 
 

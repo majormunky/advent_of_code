@@ -1,3 +1,4 @@
+import os
 import common
 import string
 
@@ -46,7 +47,7 @@ def build_pos_key(pos):
 
 def find_neighbors(pos, map):
     x, y = pos
-    
+
     # up
     if y >= 1:
         yield (x, y - 1)
@@ -124,7 +125,7 @@ def find_a_star_path(start, end, map_data):
             g_score_increase = 1
             # print(f"  neighbor elevation - {neighbor_elevation}")
             # print(f"  elevation diff - {elevation_diff}")
-            # 
+            #
             if neighbor_elevation > current_elevation + 1:
                 g_score_increase = 1_000_000_000
 
@@ -166,7 +167,8 @@ def get_data(debug, test_data):
     if debug:
         data = test_data
     else:
-        data = common.get_file_contents("data/day12_input.txt")
+        real_file = os.path.join("..", "data", "day12_input.txt")
+        data = common.get_file_contents(real_file)
     return data
 
 

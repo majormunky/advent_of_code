@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 class File:
@@ -186,9 +187,10 @@ def build_size_map(fs):
 
 
 def p1():
-    lines = get_file_contents("data/day07_input.txt")
-    # print(len(lines))
-    # lines = get_file_contents("data/day07_test.input")
+    # test_file = os.path.join("..", "data", "day07_test.txt")
+    real_file = os.path.join("..", "data", "day07_input.txt")
+    lines = common.get_file_contents(real_file)
+
     file_system = build_filesystem(lines)
 
     result = build_size_map(file_system)
@@ -204,8 +206,10 @@ def p1():
 def p2():
     MAX_SIZE = 70_000_000
     REQUESTED_SIZE = 30_000_000
-    # lines = get_file_contents("data/day07_test.input")
-    lines = get_file_contents("data/day07_input.txt")
+    # real_file = os.path.join("..", "data", "day07_test.txt")
+    real_file = os.path.join("..", "data", "day07_input.txt")
+    lines = common.get_file_contents(real_file)
+
     file_system = build_filesystem(lines)
     result = build_size_map(file_system)
 
@@ -224,10 +228,8 @@ def p2():
     print(smallest)
 
 
-    # print(result)
-
-
 def main():
+    p1()
     p2()
 
 

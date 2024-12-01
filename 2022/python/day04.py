@@ -1,4 +1,5 @@
-from common import get_file_contents
+import os
+import common
 
 
 def get_pairs(item):
@@ -37,8 +38,9 @@ def p1():
     # 527 - No
     # 485 - Good
 
-    lines = get_file_contents("data/day04_input.txt")
-    # lines = get_test_lines()
+    real_file = os.path.join("..", "data", "day04_input.txt")
+    lines = common.get_file_contents(real_file)
+
     count = 0
     for line in lines:
         first, second = line.split(",")
@@ -65,7 +67,9 @@ def is_overlap(first, second):
 
 
 def p2():
-    lines = get_file_contents("data/day04_input.txt")
+    real_file = os.path.join("..", "data", "day04_input.txt")
+    lines = common.get_file_contents(real_file)
+
     count = 0
     for line in lines:
         first, second = line.split(",")
@@ -75,6 +79,7 @@ def p2():
 
 
 def main():
+    p1()
     p2()
 
 
