@@ -30,6 +30,47 @@ def expand(line, instruction, start_index, end_index):
     return [result, end_string]
 
 
+def parse_p2(line):
+    getting_instruction = False
+    result = ""
+    instruction = ""
+    start_index = None
+    end_index = None
+    completed = True
+
+    for index, char in enumerate(line):
+        # if we aren't currently getting an instruction
+        # we need to check for a (
+        if getting_instruction is False:
+            # if we found a (, set our flag
+            if char == "(":
+                completed = False
+                getting_instruction = True
+                start_index = index
+                # we can skip the rest of this loop
+                continue
+        else:
+            # we are getting an instruction
+            # check if we are at a ) yet
+            if char == ")":
+                # if so, we can unset the flag
+                getting_instruction = False
+                # we can also set our index flag for the last
+                # index of our instruction
+                end_index = index + 1
+
+                # we should now perform the instruction
+                # and get a new string
+                result, rest_to_parse = expand(line, instruction, start_index, end_index)
+                line = f"{result}{rest_to_parse}"
+                break
+            else:
+                instruction += char
+    if completed:
+        return line
+    print(line)
+    return parse_p2(line)
+
 def parse(line, remaining):
     getting_instruction = False
     result = line
@@ -93,14 +134,21 @@ def part1():
     print("Answer:", answer)
 
 def part2():
-    pass
+    result = parse_p2("(27x12)(20x12)(13x14)(7x10)(1x12)A")
+    print(result)
+    # print("XABCABCABCABCABCABCY")
+    # answer = 0
+    # for input_str in data:
+    #     result = parse_p2(input_str)
+    #     result_len = len(result)
+    #     answer += result_len
 
 def main():
-    p1 = part1()
-    # p2 = part2()
+    # p1 = part1()
+    p2 = part2()
 
-    print("Part 1", p1)
-    # print("Part 2", p2)
+    # print("Part 1", p1)
+    print("Part 2", p2)
 
 if __name__ == "__main__":
     main()

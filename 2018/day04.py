@@ -11,6 +11,26 @@ def extract_guard_info(line):
     return parts[-1].strip()
 
 
+def output_schedule(data):
+    output = "Date\tID\tMinute\n"
+    output += "\t\t" + "0" * 10
+    output += "1" * 10
+    output += "2" * 10
+    output += "3" * 10
+    output += "4" * 10
+    output += "5" * 10
+    output += "\n\t\t"
+    for _ in range(6):
+        for i in range(10):
+            output += f"{i}"
+
+    output += "\n"
+
+    for date, rows in data.items():
+        output += date.replace("1518-", "") + "\n"
+    print(output)
+
+
 def part1():
     lines = [
         "[1518-11-01 00:00] Guard #10 begins shift",
@@ -43,16 +63,19 @@ def part1():
             day_data[line_date] = []
         day_data[line_date].append({"time": line_time, "guard": guard_info})
 
-    for k, v in day_data.items():
-        print(k)
-        for item in v:
-            print(item)
-        print("--")
+    output_schedule(day_data)
+
+    # for k, v in day_data.items():
+    #     print(k)
+    #     for item in v:
+    #         print(item)
+    #     print("--")
 
 
 
 def main():
     part1()
+
 
 
 if __name__ == "__main__":
